@@ -45,25 +45,6 @@
   .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
   .font-italic { font-family: 'Fraunces', serif; font-style: italic; }
 
-  /* Loader de Carga */
-  #loader {
-    position: fixed; inset: 0; z-index: 20000;
-    background: #050505;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-  }
-  #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-  .loader-logo {
-    height: 60px; width: auto; object-fit: contain;
-    filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
-    animation: loaderPulse 1.6s ease-in-out infinite;
-  }
-  @keyframes loaderPulse { 0%,100% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
-  .loader-bar { width: 180px; height: 1px; background: rgba(255,255,255,0.15); overflow: hidden; position: relative; }
-  .loader-bar span { position: absolute; top: 0; height: 100%; width: 40%; background: var(--gold); animation: loaderSlide 1.2s cubic-bezier(0.8, 0, 0.2, 1) infinite; }
-  @keyframes loaderSlide { 0% { left: -40%; } 100% { left: 100%; } }
-  .loader-text { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cream-low); }
-
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -101,17 +82,6 @@
   .btn-premium:hover::before { transform: translateY(0); }
   .btn-premium:hover { color: #000; }
 
-  /* Botón secundario (Reservar) en la tarjeta de sede */
-  .btn-premium-secondary {
-    position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 2.2rem;
-    font-family: 'Inter', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
-    color: var(--gold); border: 1px solid var(--gold); overflow: hidden; z-index: 1; transition: color 0.5s cubic-bezier(0.8, 0, 0.2, 1);
-    background: transparent; cursor: none;
-  }
-  .btn-premium-secondary::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateY(101%); transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1); z-index: -1; }
-  .btn-premium-secondary:hover::before { transform: translateY(0); }
-  .btn-premium-secondary:hover { color: #000; }
-
   section { padding: 6rem 0; }
   @media (max-width: 768px) { section { padding: 4rem 0; } }
 
@@ -147,7 +117,7 @@
   /* Hero Marquee (Swiper) */
   .hero-marquee-wrapper {
     position: absolute;
-    top: 16%;
+    top: 22%;
     left: 0; right: 0;
     z-index: 5;
     overflow: hidden;
@@ -176,7 +146,7 @@
 
   .text-marquee-wrapper {
     position: absolute;
-    top: 64%;
+    top: 62%;
     left: 0; right: 0;
     z-index: 5;
     overflow: hidden;
@@ -216,59 +186,33 @@
   }
 
   .store-switch { display: inline-grid; grid-template-columns: 1fr 1fr; position: relative; border: 1px solid var(--border-strong); background: rgba(255,255,255,0.05); border-radius: 2px; backdrop-filter: blur(5px); }
-  .store-switch button { position: relative; z-index: 2; padding: 0.25rem 0.3rem; font-size: 0.5rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--cream-low); transition: color 0.4s ease; font-weight: 500; text-align: center; white-space: nowrap; }
+  .store-switch button { position: relative; z-index: 2; padding: 0.25rem 0.4rem; font-size: 0.55rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--cream-low); transition: color 0.4s ease; font-weight: 500; text-align: center; white-space: nowrap; }
   @media (min-width: 480px) { .store-switch button { padding: 0.4rem 0.8rem; font-size: 0.6rem; letter-spacing: 0.15em; } }
   @media (min-width: 1024px) { .store-switch button { padding: 0.5rem 1.2rem; font-size: 0.65rem; letter-spacing: 0.25em; } }
   .store-switch button.active { color: #000; }
   .store-switch .slider { position: absolute; top: 0; left: 0; height: 100%; width: 50%; background: var(--gold); transition: transform 0.5s cubic-bezier(0.8, 0, 0.2, 1); z-index: 1; }
   .store-switch[data-store="chiclayo"] .slider { transform: translateX(100%); }
 
-  .lang-btn { border: 1px solid var(--border-strong); overflow: hidden; transition: all 0.3s ease; flex-shrink: 0; }
+  .lang-btn { border: 1px solid var(--border-strong); overflow: hidden; transition: all 0.3s ease; }
   .lang-btn:hover { border-color: var(--gold); }
   .lang-btn img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
   /* Botón Cerrar Premium (Círculo) */
   .btn-close-circle {
-    width: 44px; height: 44px;
+    width: 36px; height: 36px;
     display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--gold);
+    border: 1px solid var(--border-strong);
     border-radius: 50%;
     transition: all 0.3s ease;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    background: rgba(255,255,255,0.05);
+    color: var(--cream-dim);
     flex-shrink: 0;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.4);
   }
-  .btn-close-circle i { font-size: 1rem; }
   .btn-close-circle:hover {
     border-color: var(--gold);
-    color: #000;
-    background: var(--gold);
+    color: var(--gold);
+    background: rgba(212, 180, 131, 0.1);
     transform: rotate(90deg);
-  }
-  /* X del menú hamburguesa: más visible */
-  #mobileMenuClose { width: 48px; height: 48px; color: var(--gold); border-color: var(--gold); background: rgba(212, 180, 131, 0.12); }
-  #mobileMenuClose i { font-size: 1.2rem; }
-  /* El modal inicial no tapa la navbar ni el logo; fondo sólido para que la página "se abra" al elegir */
-  #initialStoreOverlay { z-index: 30; background: rgba(5, 5, 5, 0.97); }
-  /* El menú móvil no tapa la navbar ni el logo */
-  #mobileMenuOverlay { z-index: 30; }
-  #mobileMenuDrawer { z-index: 31; top: 60px; height: calc(100vh - 60px); }
-  /* Foto del Quick View con tamaño controlado */
-  .quickview-img { width: 100%; height: 100%; object-fit: cover; max-height: 300px; }
-  @media (min-width: 768px) { .quickview-img { max-height: 460px; } }
-  #quickViewContent { max-width: 860px; }
-
-  /* Widget de Reservas Mesa247 */
-  .reservation-widget {
-    width: 100%; height: 80vh; max-height: 700px;
-    border: none; border-radius: 4px;
-    background: #fff;
-  }
-  .reservation-widget-modal {
-    max-width: 1000px; width: 95%; padding: 0;
-    overflow: hidden;
   }
 
   /* Product Swiper Rows */
@@ -338,15 +282,6 @@
   .store-select-card:hover img { transform: scale(1.05); }
   .store-select-card .overlay-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.95)); }
 
-  /* "Elige tu sede" compacto en tablets y móviles */
-  @media (max-width: 1023px) {
-    .store-select-card { aspect-ratio: 4 / 3 !important; }
-  }
-  @media (max-width: 768px) {
-    .store-select-card h3 { font-size: 1.6rem; margin-bottom: 0.75rem; }
-    #initialStoreOverlay h2 { font-size: 1.8rem !important; margin-bottom: 2rem !important; }
-  }
-
   .menu-toggle-btn {
     width: 40px; height: 40px;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -398,46 +333,14 @@
     100% { transform: scale(1.4); opacity: 0; }
   }
 
-  /* ===== RESPONSIVE 480px y menos ===== */
   @media (max-width: 480px) {
     .modal { width: 100%; height: 100vh; max-height: 100vh; border: none; top: 0; left: 0; transform: translateY(100%) scale(1); }
     .overlay.open .modal { transform: translateY(0) scale(1); }
     .cart-drawer { max-width: 100%; border-left: none; }
-    .store-actions { flex-direction: column; gap: 0.5rem; }
-    .btn-premium, .btn-premium-secondary { width: 100%; }
-    /* Navbar compacta */
-    .logo-img { height: 34px; }
-    nav .ml-auto { gap: 2px !important; }
-    #langToggle { width: 24px; height: 18px; }
-    .menu-toggle-btn { width: 36px; height: 36px; }
-    /* Sede más compacta */
-    .store-select-card { aspect-ratio: 16 / 10 !important; }
-    #initialStoreOverlay h2 { font-size: 1.5rem !important; margin-bottom: 1.5rem !important; }
-    .store-select-card .btn-premium, .store-select-card .btn-premium-secondary { padding: 0.6rem 1rem; font-size: 0.5rem; }
-  }
-
-  /* ===== RESPONSIVE 340px y menos (250px) ===== */
-  #userMobileBtn { display: none; }
-  @media (max-width: 340px) {
-    nav > div { flex-wrap: wrap; row-gap: 4px; }
-    #userToggle { display: none; }
-    #userMobileBtn { display: block; }
-    .logo-img { height: 28px; }
-    .hero-title { font-size: 2.4rem !important; }
-    .marquee-card { width: 120px; height: 160px; }
-    .text-marquee-item { font-size: 1rem; gap: 1.5rem; }
-    .store-select-card { aspect-ratio: 3 / 2 !important; }
   }
 </style>
 </head>
 <body>
-
-<!-- Loader de Carga -->
-<div id="loader">
-  <img src="https://z-cdn-media.chatglm.cn/files/871d8359-8e83-4b9c-884d-d724f32b2bdc.png?auth_key=1886715311-4f2dcf1c26894bf3952c4811b1629c81-0-563b99836c950db63bd4191a45a7ac26" alt="Fiesta Restaurant" class="loader-logo">
-  <div class="loader-bar"><span></span></div>
-  <div class="loader-text" data-i18n="loader.text">Cargando</div>
-</div>
 
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
@@ -461,15 +364,13 @@
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <div class="store-select-card" data-store="lima">
+          <!-- Guarda tu foto como fiesta-lima-bar.jpg junto al index.html; si no existe, se muestra la foto de respaldo -->
           <img src="fiesta-lima-bar.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop';" alt="Fiesta Lima" class="w-full h-full object-cover">
           <div class="overlay-gradient"></div>
           <div class="absolute bottom-0 left-0 right-0 p-6 text-center z-10">
             <div class="text-[0.6rem] tracking-[0.3em] uppercase mb-1" style="color: var(--gold);" data-i18n="lima.capital">Sede Capitalina</div>
             <h3 class="font-display text-3xl md:text-4xl font-light mb-4 text-white">Fiesta <span class="font-italic" style="color: #fff;" data-i18n="lima.name">Lima</span></h3>
-            <div class="store-actions flex items-center justify-center gap-2 flex-wrap">
-              <span class="btn-premium text-[0.55rem] py-2 px-4 inline-block store-enter-btn" data-i18n="modal.view_store">Ver Tienda</span>
-              <span class="btn-premium-secondary text-[0.55rem] py-2 px-4 inline-block store-reserve-btn" data-i18n="modal.reserve_table">Reservar</span>
-            </div>
+            <span class="btn-premium text-[0.55rem] py-2 px-4 inline-block" data-i18n="modal.view_store">Ver Tienda</span>
           </div>
         </div>
         <div class="store-select-card" data-store="chiclayo">
@@ -478,10 +379,7 @@
           <div class="absolute bottom-0 left-0 right-0 p-6 text-center z-10">
             <div class="text-[0.6rem] tracking-[0.3em] uppercase mb-1" style="color: var(--gold);" data-i18n="chiclayo.original">Sede Original</div>
             <h3 class="font-display text-3xl md:text-4xl font-light mb-4 text-white">Fiesta <span class="font-italic" style="color: #fff;" data-i18n="chiclayo.name">Chiclayo</span></h3>
-            <div class="store-actions flex items-center justify-center gap-2 flex-wrap">
-              <span class="btn-premium text-[0.55rem] py-2 px-4 inline-block store-enter-btn" data-i18n="modal.view_store">Ver Tienda</span>
-              <span class="btn-premium-secondary text-[0.55rem] py-2 px-4 inline-block store-reserve-btn" data-i18n="modal.reserve_table">Reservar</span>
-            </div>
+            <span class="btn-premium text-[0.55rem] py-2 px-4 inline-block" data-i18n="modal.view_store">Ver Tienda</span>
           </div>
         </div>
       </div>
@@ -508,10 +406,10 @@
         <button class="active" data-store="lima" data-i18n="lima.name">Lima</button>
         <button data-store="chiclayo" data-i18n="chiclayo.name">Chiclayo</button>
       </div>
-
-      <!-- Selector de idioma: visible en móviles y escritorio -->
-      <button id="langToggle" class="hover-target lang-btn flex items-center justify-center w-7 h-5 md:w-8 md:h-6">
-        <img id="langFlag" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" alt="English" class="w-full h-full object-cover">
+      
+      <button id="reserveToggle" class="hover-target flex items-center gap-1 p-1 sm:p-2 text-xs sm:text-sm text-white">
+        <i class="fas fa-calendar-check"></i>
+        <span class="hidden md:inline ml-1 tracking-widest uppercase text-[0.65rem]" data-i18n="nav.reserve">Reservar</span>
       </button>
 
       <button id="userToggle" class="hover-target p-1 sm:p-2" style="color: var(--cream-dim);">
@@ -521,6 +419,10 @@
       <button id="cartToggle" class="hover-target relative flex items-center gap-1 p-1 sm:p-2 text-white">
         <i class="fas fa-shopping-bag text-xs sm:text-sm" id="cartIcon"></i>
         <span id="cartCount" class="font-display text-[0.55rem] sm:text-[0.65rem]" style="color: var(--gold);">(0)</span>
+      </button>
+
+      <button id="langToggle" class="hover-target lang-btn hidden md:flex items-center justify-center w-8 h-6">
+        <img id="langFlag" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" alt="English" class="w-full h-full object-cover">
       </button>
       
       <button id="menuToggle" class="menu-toggle-btn lg:hidden hover-target">
@@ -547,13 +449,19 @@
       <button id="historyMobileBtn" class="text-left hover-target" data-i18n="nav.history">Historia</button>
       <a href="#contacto" class="mobile-link hover-target" data-i18n="nav.contact">Contacto</a>
       <button id="reserveMobileBtn" class="text-left hover-target" style="color: var(--gold);" data-i18n="nav.reserve">Reservar Mesa</button>
-      <button id="userMobileBtn" class="text-left hover-target" data-i18n="login.login">Iniciar Sesión</button>
+      
+      <div class="flex items-center gap-4 mt-4">
+        <span class="text-sm tracking-widest uppercase" style="color: var(--cream-low);" data-i18n="menu.language">Idioma</span>
+        <button id="langToggleMobile" class="hover-target lang-btn flex items-center justify-center w-10 h-7">
+          <img id="langFlagMobile" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" alt="English" class="w-full h-full object-cover">
+        </button>
+      </div>
     </nav>
   </div>
 </aside>
 
 <!-- Hero -->
-<section id="top" class="relative min-h-screen flex flex-col justify-end pb-16 md:pb-24" style="padding-top: 0;">
+<section id="top" class="relative min-h-screen flex flex-col justify-end pb-16 md:pb-32" style="padding-top: 0;">
   <div class="hero-bg-wrap">
     <img src="https://z-cdn-media.chatglm.cn/files/62abad15-33c4-42c4-90d9-daa24b027240.jpg?auth_key=1886752120-a39aa6c7a8754060bbc42d334ad9719c-0-4fce4023f27ced8df22faf96e8a413bc" alt="Fiesta Restaurant Interior" class="hero-bg">
     <div class="hero-overlay"></div>
@@ -709,19 +617,33 @@
   </div>
 </div>
 
-<!-- Widget de Reservas Mesa247 (iframe en overlay) -->
-<div class="overlay" id="reserveWidgetOverlay">
-  <div class="modal reservation-widget-modal">
-    <div class="p-4 border-b flex items-center justify-between" style="border-color: var(--border); background: var(--bg-glass-2);">
-      <div>
-        <div class="text-[0.6rem] tracking-[0.3em] uppercase" style="color: var(--gold);" data-i18n="reserve.widget_title">Reserva tu mesa</div>
-        <div class="font-display text-lg text-white" id="widgetStoreName">Fiesta Lima</div>
-      </div>
-      <button id="closeReserveWidgetBtn" class="btn-close-circle hover-target">
+<!-- Modal de Reservas -->
+<div class="overlay" id="reservationOverlay">
+  <div class="modal" style="max-width: 650px;">
+    <div class="p-6 md:p-8">
+      <button id="closeReservationBtn" class="btn-close-circle hover-target mb-6">
         <i class="fas fa-times text-sm"></i>
       </button>
+      <div class="flex items-center gap-3 mb-3 text-[0.6rem] tracking-[0.3em] uppercase" style="color: var(--gold);">
+        <span class="w-8 h-px" style="background: var(--gold);"></span>
+        <span data-i18n="reserve.title">Reservas</span>
+      </div>
+      <h2 class="font-display font-light text-3xl mb-8 text-white"><span data-i18n="reserve.reserve_at">Reservar en</span> <span class="font-italic" style="color: var(--gold);" id="reservStoreName">Fiesta Lima</span></h2>
+      <form id="reservationForm" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.name">Nombre</label><input type="text" required class="form-input" /></div>
+          <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.phone">Teléfono</label><input type="tel" required class="form-input" placeholder="+51 ..." /></div>
+        </div>
+        <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.email">Correo</label><input type="email" required class="form-input" placeholder="usted@correo.com" /></div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.date">Fecha</label><input type="date" required class="form-input" /></div>
+          <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.time">Hora</label><input type="time" required class="form-input" /></div>
+          <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.people">Personas</label><input type="number" required min="1" max="20" class="form-input" placeholder="2" /></div>
+        </div>
+        <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.comments">Comentarios (opcional)</label><input type="text" class="form-input" /></div>
+        <button type="submit" class="btn-premium w-full hover-target" data-i18n="reserve.confirm">Confirmar Reserva</button>
+      </form>
     </div>
-    <iframe id="reserveWidgetFrame" class="reservation-widget" src="" title="Reservas Mesa247" loading="lazy"></iframe>
   </div>
 </div>
 
@@ -811,8 +733,7 @@
   // Diccionario de Traducciones
   const translations = {
     es: {
-      "loader.text": "Cargando",
-      "modal.welcome": "Bienvenido a Fiesta", "modal.choose": "Elige tu", "modal.location": "sede", "modal.view_store": "Ver Tienda", "modal.reserve_table": "Reservar", "modal.close": "Cerrar", "modal.back": "Volver",
+      "modal.welcome": "Bienvenido a Fiesta", "modal.choose": "Elige tu", "modal.location": "sede", "modal.view_store": "Ver Tienda", "modal.close": "Cerrar", "modal.back": "Volver",
       "lima.capital": "Sede Capitalina", "lima.name": "Lima",
       "chiclayo.original": "Sede Original", "chiclayo.name": "Chiclayo",
       "nav.shop": "Tienda", "nav.contact": "Contacto", "nav.reserve": "Reservar", "nav.history": "Historia",
@@ -822,7 +743,7 @@
       "shop.entradas": "Entradas", "shop.fondos": "Platos de Fondo", "shop.postres_bebidas": "Postres & Bebidas",
       "footer.desc": "Tienda online de cocina norteña peruana. Dos sedes, dos razones sociales. La misma casa desde 1982.", "footer.store": "Sede", "footer.rights": "Todos los derechos reservados.", "footer.privacy": "Privacidad", "footer.terms": "Términos",
       "cart.title": "Tu carrito", "cart.subtotal": "Subtotal", "cart.shipping": "Envío", "cart.calc": "A calcular", "cart.free": "Gratis", "cart.total": "Total", "cart.checkout": "Finalizar compra", "cart.continue": "Seguir comprando", "cart.billed_by": "Facturado por",
-      "reserve.title": "Reservas", "reserve.reserve_at": "Reservar en", "reserve.confirm": "Confirmar Reserva", "reserve.widget_title": "Reserva tu mesa",
+      "reserve.title": "Reservas", "reserve.reserve_at": "Reservar en", "reserve.confirm": "Confirmar Reserva",
       "form.name": "Nombre", "form.phone": "Teléfono", "form.email": "Correo", "form.password": "Contraseña", "form.date": "Fecha", "form.time": "Hora", "form.people": "Personas", "form.comments": "Comentarios (opcional)", "form.address": "Dirección", "form.lastname": "Apellido",
       "login.login": "Iniciar Sesión", "login.register": "Registrarse", "login.submit": "Ingresar", "login.create": "Crear Cuenta",
       "checkout.title": "Finalizar", "checkout.purchase": "compra", "checkout.business": "Razón Social", "checkout.ruc": "RUC", "checkout.confirm_pay": "Confirmar y pagar", "checkout.summary": "Resumen",
@@ -833,8 +754,7 @@
       "toast.store_changed": "Ahora compras en", "toast.added": "agregado.", "toast.empty_cart": "Tu carrito está vacío.", "toast.reserve_success": "Reserva solicitada con éxito. Te contactaremos pronto.", "toast.checkout_success": "¡Pedido confirmado! Factura emitida por"
     },
     en: {
-      "loader.text": "Loading",
-      "modal.welcome": "Welcome to Fiesta", "modal.choose": "Choose your", "modal.location": "location", "modal.view_store": "View Store", "modal.reserve_table": "Book", "modal.close": "Close", "modal.back": "Back",
+      "modal.welcome": "Welcome to Fiesta", "modal.choose": "Choose your", "modal.location": "location", "modal.view_store": "View Store", "modal.close": "Close", "modal.back": "Back",
       "lima.capital": "Capital Branch", "lima.name": "Lima",
       "chiclayo.original": "Original Branch", "chiclayo.name": "Chiclayo",
       "nav.shop": "Shop", "nav.contact": "Contact", "nav.reserve": "Book", "nav.history": "History",
@@ -844,7 +764,7 @@
       "shop.entradas": "Starters", "shop.fondos": "Mains", "shop.postres_bebidas": "Desserts & Drinks",
       "footer.desc": "Online store of Peruvian northern cuisine. Two locations, two companies. The same house since 1982.", "footer.store": "Branch", "footer.rights": "All rights reserved.", "footer.privacy": "Privacy", "footer.terms": "Terms",
       "cart.title": "Your cart", "cart.subtotal": "Subtotal", "cart.shipping": "Shipping", "cart.calc": "To calculate", "cart.free": "Free", "cart.total": "Total", "cart.checkout": "Checkout", "cart.continue": "Continue shopping", "cart.billed_by": "Billed by",
-      "reserve.title": "Reservations", "reserve.reserve_at": "Book at", "reserve.confirm": "Confirm Reservation", "reserve.widget_title": "Book your table",
+      "reserve.title": "Reservations", "reserve.reserve_at": "Book at", "reserve.confirm": "Confirm Reservation",
       "form.name": "Name", "form.phone": "Phone", "form.email": "Email", "form.password": "Password", "form.date": "Date", "form.time": "Time", "form.people": "People", "form.comments": "Comments (optional)", "form.address": "Address", "form.lastname": "Last Name",
       "login.login": "Log In", "login.register": "Sign Up", "login.submit": "Log In", "login.create": "Create Account",
       "checkout.title": "Complete", "checkout.purchase": "purchase", "checkout.business": "Company Name", "checkout.ruc": "Tax ID", "checkout.confirm_pay": "Confirm and pay", "checkout.summary": "Summary",
@@ -854,12 +774,6 @@
       "history.p3": "Every dish is an act of memory. Every service, a promise that the flavor of the north is not lost — it is transformed.",
       "toast.store_changed": "Now shopping at", "toast.added": "added.", "toast.empty_cart": "Your cart is empty.", "toast.reserve_success": "Reservation requested successfully. We will contact you soon.", "toast.checkout_success": "Order confirmed! Invoice issued by"
     }
-  };
-
-  // URLs del widget de reservas Mesa247
-  const reserveWidgetUrls = {
-    lima: 'https://fiesta.mesa247.pe/reservas/#/fiesta_lima',
-    chiclayo: 'https://fiesta.mesa247.pe/reservas/#/fiesta_chiclayo'
   };
 
   const stores = {
@@ -938,19 +852,23 @@
   let currentStore = 'lima';
   let currentLang = 'es';
   let carts = { lima: [], chiclayo: [] };
+  let hadSavedStore = false;
   let heroSwiper = null;
   let productSwipers = [];
 
   // --- Persistencia (memoria del navegador) ---
   try {
+    const savedStore = localStorage.getItem('fiesta_store');
     const savedLang = localStorage.getItem('fiesta_lang');
     const savedCarts = JSON.parse(localStorage.getItem('fiesta_carts') || 'null');
+    if (savedStore && stores[savedStore]) { currentStore = savedStore; hadSavedStore = true; }
     if (savedLang && translations[savedLang]) currentLang = savedLang;
     if (savedCarts && savedCarts.lima && savedCarts.chiclayo) carts = savedCarts;
   } catch (e) {}
 
   function persist() {
     try {
+      localStorage.setItem('fiesta_store', currentStore);
       localStorage.setItem('fiesta_lang', currentLang);
       localStorage.setItem('fiesta_carts', JSON.stringify(carts));
     } catch (e) {}
@@ -973,6 +891,8 @@
     
     document.getElementById('langFlag').src = flagSrc;
     document.getElementById('langFlag').alt = flagAlt;
+    document.getElementById('langFlagMobile').src = flagSrc;
+    document.getElementById('langFlagMobile').alt = flagAlt;
     
     switchStore(currentStore, false);
     persist();
@@ -985,7 +905,7 @@
   document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
   function animateCursor() { ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateCursor); }
   animateCursor();
-  document.addEventListener('mouseover', e => { if (e.target.closest('a, button, input, .hover-target, .store-select-card, .marquee-card, .menu-toggle-btn, .whatsapp-float, .lang-btn, .swiper-button-next, .swiper-button-prev, .btn-close-circle, .btn-premium, .btn-premium-secondary')) ring.classList.add('hover-active'); else ring.classList.remove('hover-active'); });
+  document.addEventListener('mouseover', e => { if (e.target.closest('a, button, input, .hover-target, .store-select-card, .marquee-card, .menu-toggle-btn, .whatsapp-float, .lang-btn, .swiper-button-next, .swiper-button-prev, .btn-close-circle')) ring.classList.add('hover-active'); else ring.classList.remove('hover-active'); });
 
   const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
@@ -1010,26 +930,9 @@
   mobileMenuOverlay.addEventListener('click', closeMobileMenu);
   document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', closeMobileMenu));
 
-  // Botones de la tarjeta de sede: "Ver Tienda" entra, "Reservar" abre el widget Mesa247
   document.querySelectorAll('.store-select-card').forEach(card => {
-    const storeId = card.dataset.store;
-    const enterBtn = card.querySelector('.store-enter-btn');
-    const reserveBtn = card.querySelector('.store-reserve-btn');
-    
-    if (enterBtn) {
-      enterBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        switchStore(storeId);
-        document.getElementById('initialStoreOverlay').classList.remove('open');
-      });
-    }
-    if (reserveBtn) {
-      reserveBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        openReserveWidget(storeId);
-      });
-    }
     card.addEventListener('click', function() {
+      const storeId = this.dataset.store;
       switchStore(storeId);
       document.getElementById('initialStoreOverlay').classList.remove('open');
     });
@@ -1061,6 +964,7 @@
     document.getElementById('productCount').textContent = store.products.length;
     document.getElementById('cartStoreName').textContent = store[`name_${currentLang}`];
     document.getElementById('cartFiscalName').textContent = store.razonSocial;
+    document.getElementById('reservStoreName').textContent = store[`name_${currentLang}`];
     
     document.getElementById('whatsappFloat').href = store.whatsapp;
     renderFooterInfo(storeId);
@@ -1157,9 +1061,11 @@
       `;
     }).join('');
 
+    // Destroy old swipers
     productSwipers.forEach(s => s.destroy(true, true));
     productSwipers = [];
 
+    // Initialize new swipers
     document.querySelectorAll('.product-swiper').forEach(el => {
       productSwipers.push(new Swiper(el, {
         slidesPerView: 1.2,
@@ -1178,6 +1084,7 @@
       }));
     });
 
+    // Add event listeners
     document.querySelectorAll('.product-card').forEach(card => {
       const id = card.dataset.id;
       const imgWrap = card.querySelector('.product-img-wrap');
@@ -1241,7 +1148,7 @@
     const content = document.getElementById('quickViewContent');
     content.innerHTML = `
       <div class="grid grid-cols-1 md:grid-cols-2">
-        <img src="${p.img}" class="quickview-img" style="min-height: 250px;">
+        <img src="${p.img}" class="w-full h-full object-cover" style="min-height: 250px;">
         <div class="p-6 md:p-8">
           <button id="closeQuickViewBtn" class="btn-close-circle hover-target mb-6">
             <i class="fas fa-times text-sm"></i>
@@ -1279,20 +1186,9 @@
     document.getElementById('checkoutOverlay').classList.add('open');
   }
   function closeCheckout() { document.getElementById('checkoutOverlay').classList.remove('open'); }
-
-  // --- Widget Mesa247 ---
-  function openReserveWidget(storeId) {
-    const store = stores[storeId];
-    const frame = document.getElementById('reserveWidgetFrame');
-    document.getElementById('widgetStoreName').textContent = store[`name_${currentLang}`];
-    frame.src = reserveWidgetUrls[storeId];
-    document.getElementById('reserveWidgetOverlay').classList.add('open');
-  }
-  function closeReserveWidget() {
-    const frame = document.getElementById('reserveWidgetFrame');
-    frame.src = '';
-    document.getElementById('reserveWidgetOverlay').classList.remove('open');
-  }
+  
+  function openReservation() { document.getElementById('reservationOverlay').classList.add('open'); }
+  function closeReservation() { document.getElementById('reservationOverlay').classList.remove('open'); }
 
   function openHistory() { document.getElementById('historyOverlay').classList.add('open'); }
   function closeHistory() { document.getElementById('historyOverlay').classList.remove('open'); }
@@ -1307,13 +1203,15 @@
   document.getElementById('closeCheckoutBtn').addEventListener('click', closeCheckout);
   document.getElementById('quickViewOverlay').addEventListener('click', (e) => { if(e.target.id === 'quickViewOverlay') closeQuickView(); });
   
-  document.getElementById('reserveMobileBtn').addEventListener('click', () => { closeMobileMenu(); openReserveWidget(currentStore); });
-
-  // Login desde menú móvil (pantallas muy pequeñas)
-  document.getElementById('userMobileBtn').addEventListener('click', () => { closeMobileMenu(); document.getElementById('loginOverlay').classList.add('open'); });
-
-  document.getElementById('closeReserveWidgetBtn').addEventListener('click', closeReserveWidget);
-  document.getElementById('reserveWidgetOverlay').addEventListener('click', (e) => { if(e.target.id === 'reserveWidgetOverlay') closeReserveWidget(); });
+  document.getElementById('reserveToggle').addEventListener('click', openReservation);
+  document.getElementById('reserveMobileBtn').addEventListener('click', () => { closeMobileMenu(); openReservation(); });
+  document.getElementById('closeReservationBtn').addEventListener('click', closeReservation);
+  document.getElementById('reservationOverlay').addEventListener('click', (e) => { if(e.target.id === 'reservationOverlay') closeReservation(); });
+  document.getElementById('reservationForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    closeReservation();
+    showToast(translations[currentLang]['toast.reserve_success']);
+  });
 
   document.getElementById('historyToggle').addEventListener('click', openHistory);
   document.getElementById('historyMobileBtn').addEventListener('click', () => { closeMobileMenu(); openHistory(); });
@@ -1341,6 +1239,7 @@
   });
 
   document.getElementById('langToggle').addEventListener('click', () => setLanguage(currentLang === 'es' ? 'en' : 'es'));
+  document.getElementById('langToggleMobile').addEventListener('click', () => { closeMobileMenu(); setLanguage(currentLang === 'es' ? 'en' : 'es'); });
 
   function showToast(msg) {
     const t = document.getElementById('toast');
@@ -1350,15 +1249,11 @@
     setTimeout(() => { t.classList.add('translate-y-[120%]', 'opacity-0'); t.classList.remove('translate-y-0', 'opacity-100'); }, 3000);
   }
 
-  // --- Loader ---
-  function hideLoader() { const l = document.getElementById('loader'); if (l) l.classList.add('hidden'); }
-  if (document.readyState === 'complete') setTimeout(hideLoader, 1200);
-  else window.addEventListener('load', () => setTimeout(hideLoader, 1200));
-  setTimeout(hideLoader, 5000);
-
   // --- Init ---
   setLanguage(currentLang);
+  const dateInput = document.querySelector('#reservationForm input[type="date"]');
+  if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+  if (hadSavedStore) document.getElementById('initialStoreOverlay').classList.remove('open');
 </script>
 </body>
 </html>
-
