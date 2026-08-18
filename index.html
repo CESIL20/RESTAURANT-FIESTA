@@ -1,1 +1,1364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fiesta Restaurant · Alta Cocina Norteña</title>
+<meta name="description" content="Fiesta Restaurant — Cocina norteña peruana en Lima y Chiclayo. Cebiches, arroz con pato, cabrito y más. Pide online." />
+<meta name="theme-color" content="#050505" />
+<meta property="og:title" content="Fiesta Restaurant · Alta Cocina Norteña" />
+<meta property="og:description" content="Dos cocinas. Una misma filosofía. Pide online y recibe la receta original de Fiesta." />
+<meta property="og:type" content="website" />
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Swiper CSS para los carruseles táctiles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+  :root {
+    --bg: #050505;
+    --bg-glass: rgba(15, 15, 15, 0.65);
+    --bg-glass-2: rgba(25, 25, 25, 0.8);
+    --cream: #ffffff;
+    --cream-dim: #dcdcdc;
+    --cream-low: #999999;
+    --gold: #d4b483;
+    --gold-bright: #e8c89a;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.25);
+  }
+
+  * { -webkit-font-smoothing: antialiased; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 60%);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    letter-spacing: 0.02em;
+  }
+
+  .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
+  .font-italic { font-family: 'Fraunces', serif; font-style: italic; }
+
+  /* Loader de Carga */
+  #loader {
+    position: fixed; inset: 0; z-index: 20000;
+    background: #050505;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .loader-logo {
+    height: 60px; width: auto; object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
+    animation: loaderPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes loaderPulse { 0%,100% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
+  .loader-bar { width: 180px; height: 1px; background: rgba(255,255,255,0.15); overflow: hidden; position: relative; }
+  .loader-bar span { position: absolute; top: 0; height: 100%; width: 40%; background: var(--gold); animation: loaderSlide 1.2s cubic-bezier(0.8, 0, 0.2, 1) infinite; }
+  @keyframes loaderSlide { 0% { left: -40%; } 100% { left: 100%; } }
+  .loader-text { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cream-low); }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: overlay;
+  }
+
+  .cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 10000;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+  }
+  .cursor-dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; transition: width 0.2s, height 0.2s; }
+  .cursor-ring { width: 32px; height: 32px; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; transition: transform 0.15s ease-out, width 0.3s, height 0.3s, border-color 0.3s; }
+  .cursor-ring.hover-active { width: 60px; height: 60px; border-color: var(--gold); }
+  @media (max-width: 1024px) { body { cursor: auto; } .cursor-dot, .cursor-ring { display: none; } }
+
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .mask-line { overflow: hidden; display: block; }
+  .mask-line > * { display: inline-block; transform: translateY(110%); transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal.is-visible .mask-line > * { transform: translateY(0); }
+
+  .btn-premium {
+    position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 2.2rem;
+    font-family: 'Inter', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+    color: #fff; border: 1px solid var(--gold); overflow: hidden; z-index: 1; transition: color 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+    background: transparent; cursor: none;
+  }
+  .btn-premium::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateY(101%); transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1); z-index: -1; }
+  .btn-premium:hover::before { transform: translateY(0); }
+  .btn-premium:hover { color: #000; }
+
+  /* Botón secundario (Reservar) en la tarjeta de sede */
+  .btn-premium-secondary {
+    position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 2.2rem;
+    font-family: 'Inter', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+    color: var(--gold); border: 1px solid var(--gold); overflow: hidden; z-index: 1; transition: color 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+    background: transparent; cursor: none;
+  }
+  .btn-premium-secondary::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateY(101%); transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1); z-index: -1; }
+  .btn-premium-secondary:hover::before { transform: translateY(0); }
+  .btn-premium-secondary:hover { color: #000; }
+
+  section { padding: 6rem 0; }
+  @media (max-width: 768px) { section { padding: 4rem 0; } }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+    background: rgba(5, 5, 5, 0.5); 
+    backdrop-filter: blur(20px) saturate(180%); 
+    -webkit-backdrop-filter: blur(20px) saturate(180%); 
+    border-bottom: 1px solid var(--border); 
+    padding: 0.5rem 0.5rem;
+  }
+  @media (min-width: 768px) { nav { padding: 0.75rem 1rem; } }
+
+  .logo-img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 2px rgba(255,255,255,0.5));
+  }
+  @media (min-width: 768px) {
+    .logo-img { height: 52px; }
+  }
+
+  .hero-bg-wrap { position: absolute; inset: 0; overflow: hidden; background: var(--bg); }
+  .hero-bg { 
+    width: 100%; height: 100%; object-fit: cover; 
+    animation: heroZoom 12s ease-out forwards; 
+    filter: brightness(0.4) saturate(1.1) contrast(1.1); 
+  }
+  @keyframes heroZoom { 0% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,5,5,0.6) 0%, rgba(5,5,5,0.3) 40%, rgba(5,5,5,0.95) 100%); pointer-events: none; }
+
+  /* Hero Marquee (Swiper) */
+  .hero-marquee-wrapper {
+    position: absolute;
+    top: 16%;
+    left: 0; right: 0;
+    z-index: 5;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    pointer-events: none;
+  }
+  .hero-marquee-wrapper .swiper-wrapper { transition-timing-function: linear !important; }
+  .marquee-card {
+    width: 220px; height: 300px;
+    position: relative; border: 1px solid var(--border); overflow: hidden;
+    background: var(--bg-glass); 
+    backdrop-filter: blur(10px);
+    pointer-events: auto; transition: transform 0.4s ease; cursor: grab;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .marquee-card:active { cursor: grabbing; }
+  .marquee-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; pointer-events: none; }
+  .marquee-card:hover img { transform: scale(1.1); }
+  .marquee-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%); pointer-events: none; }
+  @media (max-width: 768px) {
+    .marquee-card { width: 140px; height: 190px; }
+    .marquee-card-info { padding: 0.5rem; }
+    .hero-marquee-wrapper { top: 16%; }
+  }
+
+  .text-marquee-wrapper {
+    position: absolute;
+    top: 64%;
+    left: 0; right: 0;
+    z-index: 5;
+    overflow: hidden;
+    pointer-events: none;
+    padding: 1rem 0;
+  }
+  @media (max-width: 768px) {
+    .text-marquee-wrapper { top: 50%; }
+  }
+  .text-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    width: max-content;
+    animation: scrollTextMarquee 30s linear infinite;
+  }
+  @keyframes scrollTextMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .text-marquee-item {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+    font-weight: 300;
+    color: #fff;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+  .text-marquee-sep {
+    color: var(--gold);
+    font-size: 1rem;
+    display: inline-block;
+  }
+
+  .store-switch { display: inline-grid; grid-template-columns: 1fr 1fr; position: relative; border: 1px solid var(--border-strong); background: rgba(255,255,255,0.05); border-radius: 2px; backdrop-filter: blur(5px); }
+  .store-switch button { position: relative; z-index: 2; padding: 0.25rem 0.3rem; font-size: 0.5rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--cream-low); transition: color 0.4s ease; font-weight: 500; text-align: center; white-space: nowrap; }
+  @media (min-width: 480px) { .store-switch button { padding: 0.4rem 0.8rem; font-size: 0.6rem; letter-spacing: 0.15em; } }
+  @media (min-width: 1024px) { .store-switch button { padding: 0.5rem 1.2rem; font-size: 0.65rem; letter-spacing: 0.25em; } }
+  .store-switch button.active { color: #000; }
+  .store-switch .slider { position: absolute; top: 0; left: 0; height: 100%; width: 50%; background: var(--gold); transition: transform 0.5s cubic-bezier(0.8, 0, 0.2, 1); z-index: 1; }
+  .store-switch[data-store="chiclayo"] .slider { transform: translateX(100%); }
+
+  .lang-btn { border: 1px solid var(--border-strong); overflow: hidden; transition: all 0.3s ease; flex-shrink: 0; }
+  .lang-btn:hover { border-color: var(--gold); }
+  .lang-btn img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Botón Cerrar Premium (Círculo) */
+  .btn-close-circle {
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    flex-shrink: 0;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.4);
+  }
+  .btn-close-circle i { font-size: 1rem; }
+  .btn-close-circle:hover {
+    border-color: var(--gold);
+    color: #000;
+    background: var(--gold);
+    transform: rotate(90deg);
+  }
+  /* X del menú hamburguesa: más visible */
+  #mobileMenuClose { width: 48px; height: 48px; color: var(--gold); border-color: var(--gold); background: rgba(212, 180, 131, 0.12); }
+  #mobileMenuClose i { font-size: 1.2rem; }
+  /* El modal inicial no tapa la navbar ni el logo; fondo sólido para que la página "se abra" al elegir */
+  #initialStoreOverlay { z-index: 30; background: rgba(5, 5, 5, 0.97); }
+  /* El menú móvil no tapa la navbar ni el logo */
+  #mobileMenuOverlay { z-index: 30; }
+  #mobileMenuDrawer { z-index: 31; top: 60px; height: calc(100vh - 60px); }
+  /* Foto del Quick View con tamaño controlado */
+  .quickview-img { width: 100%; height: 100%; object-fit: cover; max-height: 300px; }
+  @media (min-width: 768px) { .quickview-img { max-height: 460px; } }
+  #quickViewContent { max-width: 860px; }
+
+  /* Widget de Reservas Mesa247 */
+  .reservation-widget {
+    width: 100%; height: 80vh; max-height: 700px;
+    border: none; border-radius: 4px;
+    background: #fff;
+  }
+  .reservation-widget-modal {
+    max-width: 1000px; width: 95%; padding: 0;
+    overflow: hidden;
+  }
+
+  /* Product Swiper Rows */
+  .product-swiper-container { position: relative; padding: 0 0 60px 0; margin-bottom: 4rem; }
+  .product-swiper { overflow: visible; }
+  .product-card { 
+    width: 100%; height: auto; 
+    background: transparent; 
+    cursor: none; 
+    display: flex; flex-direction: column;
+  }
+  @media (max-width: 1024px) { .product-card { cursor: pointer; } }
+  
+  .product-img-wrap { overflow: hidden; position: relative; background: var(--bg-glass); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+  .product-img-wrap img { transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1); width: 100%; height: 100%; object-fit: cover; }
+  .product-card:hover .product-img-wrap img { transform: scale(1.08); }
+  .product-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.9)); opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+  .product-card:hover .product-img-wrap::after { opacity: 1; }
+  .quick-add { position: absolute; bottom: 1rem; left: 1rem; right: 1rem; padding: 0.75rem; border: 1px solid var(--gold); color: #fff; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; text-align: center; transform: translateY(20px); opacity: 0; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); z-index: 2; backdrop-filter: blur(4px); background: rgba(168, 138, 79, 0.9); }
+  .product-card:hover .quick-add { transform: translateY(0); opacity: 1; }
+
+  /* Custom Swiper navigation */
+  .swiper-button-next, .swiper-button-prev {
+    color: var(--gold) !important;
+    background: rgba(5,5,5,0.6);
+    width: 44px !important; height: 44px !important;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  .swiper-button-next:hover, .swiper-button-prev:hover {
+    background: var(--gold);
+    color: #000 !important;
+  }
+  .swiper-button-next::after, .swiper-button-prev::after { font-size: 14px !important; font-weight: 800; }
+  .swiper-button-prev { left: 0; }
+  .swiper-button-next { right: 0; }
+
+  .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(12px); z-index: 9000; opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s ease; }
+  .overlay.open { opacity: 1; visibility: visible; }
+  
+  .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -45%) scale(0.98); background: var(--bg-glass-2); backdrop-filter: blur(30px); border: 1px solid var(--border-strong); max-width: 1000px; width: 90%; max-height: 90vh; overflow-y: auto; z-index: 9001; opacity: 0; visibility: hidden; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  .overlay.open .modal { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; }
+  
+  .cart-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 440px; background: rgba(10, 10, 12, 0.9); backdrop-filter: blur(30px); border-left: 1px solid var(--border-strong); z-index: 9001; transform: translateX(100%); transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; }
+  .cart-drawer.open { transform: translateX(0); }
+
+  .form-input { background: transparent; border: none; border-bottom: 1px solid var(--border-strong); padding: 1rem 0; color: #fff; font-family: 'Inter', sans-serif; font-size: 0.9rem; width: 100%; transition: border-color 0.3s ease; }
+  .form-input:focus { outline: none; border-bottom: 1px solid var(--gold); }
+  .form-input::placeholder { color: var(--cream-low); }
+  .form-input[type="date"], .form-input[type="time"], .form-input[type="number"] { color-scheme: dark; }
+  
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); }
+
+  .login-tab { color: var(--cream-low); border-bottom: 1px solid transparent; transition: all 0.3s ease; margin-bottom: -1px; }
+  .login-tab.active { color: #fff; border-bottom-color: var(--gold); }
+
+  .fiscal-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); padding: 1.5rem; position: relative; }
+  .fiscal-card::before { content: 'FACTURACIÓN'; position: absolute; top: -7px; left: 1rem; background: #0a0a0c; padding: 0 0.5rem; font-size: 0.55rem; letter-spacing: 0.3em; color: var(--gold); }
+
+  .store-select-card { position: relative; overflow: hidden; aspect-[3/4]; cursor: none; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--border); }
+  @media (max-width: 1024px) { .store-select-card { cursor: pointer; } }
+  .store-select-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .store-select-card:hover img { transform: scale(1.05); }
+  .store-select-card .overlay-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.95)); }
+
+  /* "Elige tu sede" compacto en tablets y móviles */
+  @media (max-width: 1023px) {
+    .store-select-card { aspect-ratio: 4 / 3 !important; }
+  }
+  @media (max-width: 768px) {
+    .store-select-card h3 { font-size: 1.6rem; margin-bottom: 0.75rem; }
+    #initialStoreOverlay h2 { font-size: 1.8rem !important; margin-bottom: 2rem !important; }
+  }
+
+  .menu-toggle-btn {
+    width: 40px; height: 40px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    gap: 5px; cursor: pointer; transition: all 0.3s ease;
+  }
+  .hamburger-line {
+    width: 22px; height: 1.5px; background-color: #fff;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+  .menu-toggle-btn.active .hamburger-line:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+    background-color: var(--gold);
+  }
+  .menu-toggle-btn.active .hamburger-line:nth-child(2) {
+    opacity: 0; transform: scaleX(0);
+  }
+  .menu-toggle-btn.active .hamburger-line:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+    background-color: var(--gold);
+  }
+
+  .whatsapp-float {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 40;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(15, 15, 15, 0.65); backdrop-filter: blur(10px);
+    border: 1px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+  }
+  .whatsapp-float:hover {
+    background: var(--gold); transform: scale(1.05);
+  }
+  .whatsapp-float i {
+    color: var(--gold); font-size: 1.5rem; transition: color 0.3s ease;
+  }
+  .whatsapp-float:hover i {
+    color: #000;
+  }
+  .whatsapp-pulse {
+    position: absolute; inset: -4px; border-radius: 50%;
+    border: 1px solid rgba(212, 180, 131, 0.4);
+    animation: pulseRing 2.5s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulseRing {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+
+  /* ===== RESPONSIVE 480px y menos ===== */
+  @media (max-width: 480px) {
+    .modal { width: 100%; height: 100vh; max-height: 100vh; border: none; top: 0; left: 0; transform: translateY(100%) scale(1); }
+    .overlay.open .modal { transform: translateY(0) scale(1); }
+    .cart-drawer { max-width: 100%; border-left: none; }
+    .store-actions { flex-direction: column; gap: 0.5rem; }
+    .btn-premium, .btn-premium-secondary { width: 100%; }
+    /* Navbar compacta */
+    .logo-img { height: 34px; }
+    nav .ml-auto { gap: 2px !important; }
+    #langToggle { width: 24px; height: 18px; }
+    .menu-toggle-btn { width: 36px; height: 36px; }
+    /* Sede más compacta */
+    .store-select-card { aspect-ratio: 16 / 10 !important; }
+    #initialStoreOverlay h2 { font-size: 1.5rem !important; margin-bottom: 1.5rem !important; }
+    .store-select-card .btn-premium, .store-select-card .btn-premium-secondary { padding: 0.6rem 1rem; font-size: 0.5rem; }
+  }
+
+  /* ===== RESPONSIVE 340px y menos (250px) ===== */
+  #userMobileBtn { display: none; }
+  @media (max-width: 340px) {
+    nav > div { flex-wrap: wrap; row-gap: 4px; }
+    #userToggle { display: none; }
+    #userMobileBtn { display: block; }
+    .logo-img { height: 28px; }
+    .hero-title { font-size: 2.4rem !important; }
+    .marquee-card { width: 120px; height: 160px; }
+    .text-marquee-item { font-size: 1rem; gap: 1.5rem; }
+    .store-select-card { aspect-ratio: 3 / 2 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loader de Carga -->
+<div id="loader">
+  <img src="https://z-cdn-media.chatglm.cn/files/871d8359-8e83-4b9c-884d-d724f32b2bdc.png?auth_key=1886715311-4f2dcf1c26894bf3952c4811b1629c81-0-563b99836c950db63bd4191a45a7ac26" alt="Fiesta Restaurant" class="loader-logo">
+  <div class="loader-bar"><span></span></div>
+  <div class="loader-text" data-i18n="loader.text">Cargando</div>
+</div>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<a href="https://wa.me/51932483302" target="_blank" id="whatsappFloat" class="whatsapp-float hover-target">
+  <span class="whatsapp-pulse"></span>
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Modal de Selección de Tienda -->
+<div class="overlay open" id="initialStoreOverlay">
+  <div class="modal" style="max-width: 900px; background: transparent; border: none; box-shadow: none;">
+    <div class="p-4 md:p-8 text-center">
+      <div class="flex items-center gap-3 mb-3 justify-center text-[0.65rem] tracking-[0.3em] uppercase reveal is-visible" style="color: var(--gold);">
+        <span class="w-8 h-px" style="background: var(--gold);"></span>
+        <span data-i18n="modal.welcome">Bienvenido a Fiesta</span>
+        <span class="w-8 h-px" style="background: var(--gold);"></span>
+      </div>
+      <h2 class="section-title font-display font-light leading-[1.05] mb-10 text-white" style="font-size: clamp(2rem, 5vw, 4rem);">
+        <span data-i18n="modal.choose">Elige tu</span> <span class="font-italic" style="color: var(--gold);" data-i18n="modal.location">sede</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div class="store-select-card" data-store="lima">
+          <img src="fiesta-lima-bar.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop';" alt="Fiesta Lima" class="w-full h-full object-cover">
+          <div class="overlay-gradient"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-center z-10">
+            <div class="text-[0.6rem] tracking-[0.3em] uppercase mb-1" style="color: var(--gold);" data-i18n="lima.capital">Sede Capitalina</div>
+            <h3 class="font-display text-3xl md:text-4xl font-light mb-4 text-white">Fiesta <span class="font-italic" style="color: #fff;" data-i18n="lima.name">Lima</span></h3>
+            <div class="store-actions flex items-center justify-center gap-2 flex-wrap">
+              <span class="btn-premium text-[0.55rem] py-2 px-4 inline-block store-enter-btn" data-i18n="modal.view_store">Ver Tienda</span>
+              <span class="btn-premium-secondary text-[0.55rem] py-2 px-4 inline-block store-reserve-btn" data-i18n="modal.reserve_table">Reservar</span>
+            </div>
+          </div>
+        </div>
+        <div class="store-select-card" data-store="chiclayo">
+          <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1200&auto=format&fit=crop" alt="Fiesta Chiclayo" class="w-full h-full object-cover">
+          <div class="overlay-gradient"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-center z-10">
+            <div class="text-[0.6rem] tracking-[0.3em] uppercase mb-1" style="color: var(--gold);" data-i18n="chiclayo.original">Sede Original</div>
+            <h3 class="font-display text-3xl md:text-4xl font-light mb-4 text-white">Fiesta <span class="font-italic" style="color: #fff;" data-i18n="chiclayo.name">Chiclayo</span></h3>
+            <div class="store-actions flex items-center justify-center gap-2 flex-wrap">
+              <span class="btn-premium text-[0.55rem] py-2 px-4 inline-block store-enter-btn" data-i18n="modal.view_store">Ver Tienda</span>
+              <span class="btn-premium-secondary text-[0.55rem] py-2 px-4 inline-block store-reserve-btn" data-i18n="modal.reserve_table">Reservar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="max-w-[1600px] mx-auto px-2 sm:px-4 md:px-8 flex items-center justify-between gap-2">
+    <a href="#top" class="logo flex-shrink-0 flex items-center hover-target py-1 px-2">
+      <img src="https://z-cdn-media.chatglm.cn/files/871d8359-8e83-4b9c-884d-d724f32b2bdc.png?auth_key=1886715311-4f2dcf1c26894bf3952c4811b1629c81-0-563b99836c950db63bd4191a45a7ac26" alt="Fiesta Restaurant" class="logo-img">
+    </a>
+
+    <div class="nav-links hidden lg:flex items-center gap-10 text-[0.65rem] tracking-[0.25em] uppercase" style="color: var(--cream-dim);">
+      <a href="#tienda" class="hover:text-white transition-colors hover-target" data-i18n="nav.shop">Tienda</a>
+      <button id="historyToggle" class="hover:text-white transition-colors hover-target" data-i18n="nav.history">Historia</button>
+      <a href="#contacto" class="hover:text-white transition-colors hover-target" data-i18n="nav.contact">Contacto</a>
+    </div>
+
+    <div class="flex items-center gap-1 sm:gap-2 md:gap-4 ml-auto">
+      <div class="store-switch inline-flex hover-target" data-store="lima" id="storeSwitch">
+        <div class="slider"></div>
+        <button class="active" data-store="lima" data-i18n="lima.name">Lima</button>
+        <button data-store="chiclayo" data-i18n="chiclayo.name">Chiclayo</button>
+      </div>
+
+      <!-- Selector de idioma: visible en móviles y escritorio -->
+      <button id="langToggle" class="hover-target lang-btn flex items-center justify-center w-7 h-5 md:w-8 md:h-6">
+        <img id="langFlag" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" alt="English" class="w-full h-full object-cover">
+      </button>
+
+      <button id="userToggle" class="hover-target p-1 sm:p-2" style="color: var(--cream-dim);">
+        <i class="fas fa-user text-xs sm:text-sm"></i>
+      </button>
+      
+      <button id="cartToggle" class="hover-target relative flex items-center gap-1 p-1 sm:p-2 text-white">
+        <i class="fas fa-shopping-bag text-xs sm:text-sm" id="cartIcon"></i>
+        <span id="cartCount" class="font-display text-[0.55rem] sm:text-[0.65rem]" style="color: var(--gold);">(0)</span>
+      </button>
+      
+      <button id="menuToggle" class="menu-toggle-btn lg:hidden hover-target">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Menú Móvil -->
+<div class="overlay" id="mobileMenuOverlay"></div>
+<aside class="cart-drawer" id="mobileMenuDrawer" style="max-width: 320px;">
+  <header class="p-6 border-b flex items-center justify-between" style="border-color: var(--border);">
+    <span class="font-display text-xl text-white" data-i18n="menu.title">Menú</span>
+    <button id="mobileMenuClose" class="btn-close-circle hover-target">
+      <i class="fas fa-times text-sm"></i>
+    </button>
+  </header>
+  <div class="flex-1 overflow-y-auto p-6">
+    <nav class="flex flex-col gap-6 text-2xl font-display font-light mb-12 text-white">
+      <a href="#tienda" class="mobile-link hover-target" data-i18n="nav.shop">Tienda</a>
+      <button id="historyMobileBtn" class="text-left hover-target" data-i18n="nav.history">Historia</button>
+      <a href="#contacto" class="mobile-link hover-target" data-i18n="nav.contact">Contacto</a>
+      <button id="reserveMobileBtn" class="text-left hover-target" style="color: var(--gold);" data-i18n="nav.reserve">Reservar Mesa</button>
+      <button id="userMobileBtn" class="text-left hover-target" data-i18n="login.login">Iniciar Sesión</button>
+    </nav>
+  </div>
+</aside>
+
+<!-- Hero -->
+<section id="top" class="relative min-h-screen flex flex-col justify-end pb-16 md:pb-24" style="padding-top: 0;">
+  <div class="hero-bg-wrap">
+    <img src="https://z-cdn-media.chatglm.cn/files/62abad15-33c4-42c4-90d9-daa24b027240.jpg?auth_key=1886752120-a39aa6c7a8754060bbc42d334ad9719c-0-4fce4023f27ced8df22faf96e8a413bc" alt="Fiesta Restaurant Interior" class="hero-bg">
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div id="heroMarquee" class="hero-marquee-wrapper swiper"></div>
+
+  <div class="text-marquee-wrapper">
+    <div class="text-marquee-track">
+      <div class="text-marquee-item">
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+      </div>
+      <div class="text-marquee-item" aria-hidden="true">
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+        El producto no es negociable
+        <span class="text-marquee-sep">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative z-10 px-4 md:px-8 max-w-[1600px] mx-auto w-full">
+    <h1 class="hero-title font-display font-light leading-[0.9] tracking-tight mb-8 mt-12 text-white" style="font-size: clamp(3rem, 10vw, 9rem);">
+      <span class="mask-line"><span data-i18n="hero.title1">El norte del</span></span>
+      <span class="mask-line" style="transition-delay: 0.1s;"><span class="font-italic" style="color: var(--gold);" data-i18n="hero.title2">Perú, en casa.</span></span>
+    </h1>
+
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <p class="max-w-md text-sm md:text-lg leading-relaxed reveal text-white" style="color: var(--cream-dim); transition-delay: 0.2s;" data-i18n="hero.desc">
+        Dos cocinas. Una misma filosofía. Pedí online y recibí la receta original de Fiesta, lista para servir.
+      </p>
+      <div class="flex items-center gap-4 reveal" style="transition-delay: 0.3s;">
+        <a href="#tienda" class="btn-premium hover-target" data-i18n="hero.btn1">Comprar ahora</a>
+        <a href="#contacto" class="text-[0.65rem] tracking-widest uppercase hover:text-white transition-colors hover-target" style="color: var(--cream-dim);" data-i18n="hero.btn2">Ver más →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tienda (3 Filas Horizontales) -->
+<section id="tienda" class="py-16 md:py-24 max-w-[1600px] mx-auto">
+  <div class="px-4 md:px-8">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 reveal">
+      <div>
+        <div class="flex items-center gap-3 mb-3 text-[0.6rem] tracking-[0.3em] uppercase" style="color: var(--gold);">
+          <span class="w-8 h-px" style="background: var(--gold);"></span>
+          <span data-i18n="shop.tag">Tienda</span> <span id="storeNameTag">Lima</span>
+        </div>
+        <h2 class="section-title font-display font-light leading-[1.05] text-white" style="font-size: clamp(2rem, 5vw, 4rem);">
+          <span id="storeTitle">Cocina de autor</span><br>
+          <span class="font-italic text-xl md:text-3xl" style="color: var(--gold);" id="storeSubtitle">entregada en tu mesa.</span>
+        </h2>
+      </div>
+      <div class="max-w-xs">
+        <p class="text-xs md:text-sm leading-relaxed mb-2 text-white" style="color: var(--cream-dim);" id="storeDescription">
+          Platos premium, listos para calentar y servir.
+        </p>
+        <div class="text-[0.6rem] tracking-[0.3em] uppercase" style="color: var(--cream-low);">
+          <span id="productCount">6</span> <span data-i18n="shop.products">productos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="productsGrid" class="px-4 md:px-8 reveal"></div>
+</section>
+
+<!-- Footer -->
+<footer id="contacto" class="pt-16 pb-8 px-4 md:px-8 mt-16" style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px); border-top: 1px solid var(--border);">
+  <div class="max-w-[1600px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <div class="md:col-span-2">
+        <div class="mb-4">
+          <img src="https://z-cdn-media.chatglm.cn/files/871d8359-8e83-4b9c-884d-d724f32b2bdc.png?auth_key=1886715311-4f2dcf1c26894bf3952c4811b1629c81-0-563b99836c950db63bd4191a45a7ac26" alt="Fiesta Restaurant" class="logo-img">
+        </div>
+        <p class="text-xs leading-relaxed mb-4 max-w-xs text-white" style="color: var(--cream-dim);" data-i18n="footer.desc">
+          Tienda online de cocina norteña peruana. Dos sedes, dos razones sociales. La misma casa desde 1982.
+        </p>
+      </div>
+      
+      <div>
+        <div class="text-[0.6rem] tracking-[0.3em] uppercase mb-3" style="color: var(--gold);"><span data-i18n="footer.store">Sede</span> <span id="footerStoreName">Lima</span></div>
+        <div class="text-xs space-y-2 text-white" style="color: var(--cream-dim);" id="footerStoreInfo">
+          <!-- El JS inyectará la info aquí -->
+        </div>
+      </div>
+    </div>
+    <div class="pt-6 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-[0.6rem] tracking-[0.2em] uppercase" style="border-color: var(--border); color: var(--cream-low);">
+      <div>© 2026 Fiesta Restaurant · <span data-i18n="footer.rights">Todos los derechos reservados.</span></div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-white transition-colors hover-target" data-i18n="footer.privacy">Privacidad</a>
+        <a href="#" class="hover:text-white transition-colors hover-target" data-i18n="footer.terms">Términos</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart Drawer -->
+<div class="overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <header class="p-6 border-b flex items-center justify-between" style="border-color: var(--border);">
+    <div>
+      <div class="text-[0.6rem] tracking-[0.3em] uppercase" style="color: var(--gold);" data-i18n="cart.title">Tu carrito</div>
+      <div class="font-display text-xl text-white" id="cartStoreName">Fiesta Lima</div>
+    </div>
+    <button id="cartClose" class="btn-close-circle hover-target">
+      <i class="fas fa-times text-sm"></i>
+    </button>
+  </header>
+  <div class="flex-1 overflow-y-auto p-6" id="cartItems"></div>
+  <footer class="border-t p-6" style="border-color: var(--border);">
+    <div class="flex justify-between mb-2 text-xs text-white" style="color: var(--cream-dim);"><span data-i18n="cart.subtotal">Subtotal</span><span class="font-display" id="cartSubtotal">S/ 0.00</span></div>
+    <div class="flex justify-between mb-4 text-xs text-white" style="color: var(--cream-dim);"><span data-i18n="cart.shipping">Envío</span><span id="cartShipping" data-i18n="cart.calc">A calcular</span></div>
+    <div class="flex justify-between mb-6 pt-4 border-t" style="border-color: var(--border);">
+      <span class="text-[0.6rem] tracking-[0.3em] uppercase text-white" data-i18n="cart.total">Total</span>
+      <span class="font-display text-2xl" style="color: var(--gold);" id="cartTotal">S/ 0.00</span>
+    </div>
+    <button id="checkoutBtn" class="btn-premium w-full hover-target" data-i18n="cart.checkout">Finalizar compra</button>
+    <button id="continueShoppingBtn" class="mt-3 w-full text-center text-xs tracking-widest uppercase hover:text-white transition-colors" style="color: var(--cream-dim);" data-i18n="cart.continue">Seguir comprando</button>
+    <p class="text-[0.55rem] tracking-[0.2em] uppercase mt-4 text-center" style="color: var(--cream-low);" data-i18n="cart.billed_by">Facturado por</p> <p class="text-center text-[0.65rem]" style="color: var(--cream-low);"><span id="cartFiscalName">INVERSIONES Y NEGOCIOS DEL NORTE S.A.C.</span></p>
+  </footer>
+</aside>
+
+<!-- Modal de Historia -->
+<div class="overlay" id="historyOverlay">
+  <div class="modal" style="max-width: 700px;">
+    <div class="p-6 md:p-10">
+      <button id="closeHistoryBtn" class="btn-close-circle hover-target mb-6">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+      <div class="flex items-center gap-3 mb-3 text-[0.6rem] tracking-[0.3em] uppercase" style="color: var(--gold);">
+        <span class="w-8 h-px" style="background: var(--gold);"></span>
+        <span data-i18n="history.title">Nuestra Historia</span>
+      </div>
+      <h2 class="font-display font-light text-4xl mb-8 text-white">Fiesta <span class="font-italic" style="color: var(--gold);" data-i18n="history.subtitle">desde 1982</span></h2>
+      <div class="space-y-4 text-sm leading-relaxed text-white" style="color: var(--cream-dim);">
+        <p data-i18n="history.p1">Todo comenzó en Chiclayo, en una cocina de barro donde Carmen Solís guisaba cabrito para los trabajadores del mercado Modelo. Tres mesas, una estufa, y una idea: servir el norte como se sirve en casa.</p>
+        <p data-i18n="history.p2">En 1996, su hijo Héctor abrió la segunda sede en Lima, en Miraflores. Mismo fuego, misma receta, nueva conversación. Hoy, tres generaciones después, las dos cocinas siguen hablando entre sí.</p>
+        <p data-i18n="history.p3">Cada plato es un acto de memoria. Cada servicio, una promesa de que el sabor del norte no se pierde — se transforma.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Widget de Reservas Mesa247 (iframe en overlay) -->
+<div class="overlay" id="reserveWidgetOverlay">
+  <div class="modal reservation-widget-modal">
+    <div class="p-4 border-b flex items-center justify-between" style="border-color: var(--border); background: var(--bg-glass-2);">
+      <div>
+        <div class="text-[0.6rem] tracking-[0.3em] uppercase" style="color: var(--gold);" data-i18n="reserve.widget_title">Reserva tu mesa</div>
+        <div class="font-display text-lg text-white" id="widgetStoreName">Fiesta Lima</div>
+      </div>
+      <button id="closeReserveWidgetBtn" class="btn-close-circle hover-target">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+    </div>
+    <iframe id="reserveWidgetFrame" class="reservation-widget" src="" title="Reservas Mesa247" loading="lazy"></iframe>
+  </div>
+</div>
+
+<!-- Modal de Login -->
+<div class="overlay" id="loginOverlay">
+  <div class="modal" style="max-width: 450px;">
+    <div class="p-8">
+      <button id="closeLoginBtn" class="btn-close-circle hover-target mb-6">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+      <div class="flex gap-6 mb-8 border-b" style="border-color: var(--border);">
+        <button class="login-tab pb-3 text-[0.6rem] tracking-[0.3em] uppercase hover-target active" data-tab="login" data-i18n="login.login">Iniciar Sesión</button>
+        <button class="login-tab pb-3 text-[0.6rem] tracking-[0.3em] uppercase hover-target" data-tab="register" data-i18n="login.register">Registrarse</button>
+      </div>
+      <form id="loginForm" class="space-y-6">
+        <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.email">Correo</label><input type="email" required class="form-input" placeholder="usted@correo.com" /></div>
+        <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.password">Contraseña</label><input type="password" required class="form-input" placeholder="••••••••" /></div>
+        <button type="submit" class="btn-premium w-full hover-target" data-i18n="login.submit">Ingresar</button>
+      </form>
+      <form id="registerForm" class="space-y-6 hidden">
+        <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.name">Nombre</label><input type="text" required class="form-input" /></div>
+        <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.email">Correo</label><input type="email" required class="form-input" placeholder="usted@correo.com" /></div>
+        <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.password">Contraseña</label><input type="password" required class="form-input" placeholder="••••••••" /></div>
+        <button type="submit" class="btn-premium w-full hover-target" data-i18n="login.create">Crear Cuenta</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Quick View -->
+<div class="overlay" id="quickViewOverlay">
+  <div class="modal" id="quickViewContent"></div>
+</div>
+
+<!-- Modal de Checkout -->
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal" style="max-width: 1000px;">
+    <div class="grid grid-cols-1 lg:grid-cols-12">
+      <div class="lg:col-span-7 p-6 md:p-8">
+        <button id="closeCheckoutBtn" class="btn-close-circle hover-target mb-6">
+          <i class="fas fa-arrow-left text-sm"></i>
+        </button>
+        <h2 class="font-display font-light text-3xl mb-8 text-white"><span data-i18n="checkout.title">Finalizar</span> <span class="font-italic" style="color: var(--gold);" data-i18n="checkout.purchase">compra</span></h2>
+        <form id="checkoutForm" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.name">Nombre</label><input type="text" required class="form-input" /></div>
+            <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.lastname">Apellido</label><input type="text" required class="form-input" /></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.phone">Teléfono</label><input type="tel" required class="form-input" placeholder="+51 ..." /></div>
+            <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.email">Correo</label><input type="email" required class="form-input" placeholder="usted@correo.com" /></div>
+          </div>
+          <div><label class="text-[0.55rem] tracking-[0.3em] uppercase block mb-2" style="color: var(--cream-low);" data-i18n="form.address">Dirección</label><input type="text" required class="form-input" /></div>
+          <div class="fiscal-card">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div><div class="tracking-[0.2em] uppercase mb-1" style="color: var(--gold);" data-i18n="checkout.business">Razón Social</div><div class="font-display text-sm text-white" id="checkoutRazon">INVERSIONES Y NEGOCIOS DEL NORTE S.A.C.</div></div>
+              <div><div class="tracking-[0.2em] uppercase mb-1" style="color: var(--gold);" data-i18n="checkout.ruc">RUC</div><div class="font-display text-sm text-white" id="checkoutRuc">20306470338</div></div>
+            </div>
+          </div>
+          <button type="submit" class="btn-premium w-full hover-target"><span data-i18n="checkout.confirm_pay">Confirmar y pagar</span> · <span id="checkoutTotal">S/ 0.00</span></button>
+        </form>
+      </div>
+      <aside class="lg:col-span-5 p-6 md:p-8" style="background: rgba(255, 255, 255, 0.03);">
+        <div class="text-[0.6rem] tracking-[0.3em] uppercase mb-6" style="color: var(--gold);" data-i18n="checkout.summary">Resumen</div>
+        <div id="checkoutItems" class="space-y-4 mb-6"></div>
+        <div class="border-t pt-4 space-y-2" style="border-color: var(--border);">
+          <div class="flex justify-between text-xs text-white" style="color: var(--cream-dim);"><span data-i18n="cart.subtotal">Subtotal</span><span id="checkoutSubtotal">S/ 0.00</span></div>
+          <div class="flex justify-between text-xs text-white" style="color: var(--cream-dim);"><span data-i18n="cart.shipping">Envío</span><span id="checkoutShipping">S/ 0.00</span></div>
+          <div class="flex justify-between pt-4 border-t mt-4" style="border-color: var(--border);">
+            <span class="font-display text-lg text-white" data-i18n="cart.total">Total</span>
+            <span class="font-display text-xl" style="color: var(--gold);" id="checkoutTotal2">S/ 0.00</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-4 right-4 left-4 md:left-auto md:bottom-8 md:right-8 px-6 py-3 border z-[10001] transform translate-y-[120%] opacity-0 transition-all duration-500" style="background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(20px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+  <span id="toastMessage" style="color: #fff; font-size: 0.8rem;"></span>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  // Diccionario de Traducciones
+  const translations = {
+    es: {
+      "loader.text": "Cargando",
+      "modal.welcome": "Bienvenido a Fiesta", "modal.choose": "Elige tu", "modal.location": "sede", "modal.view_store": "Ver Tienda", "modal.reserve_table": "Reservar", "modal.close": "Cerrar", "modal.back": "Volver",
+      "lima.capital": "Sede Capitalina", "lima.name": "Lima",
+      "chiclayo.original": "Sede Original", "chiclayo.name": "Chiclayo",
+      "nav.shop": "Tienda", "nav.contact": "Contacto", "nav.reserve": "Reservar", "nav.history": "Historia",
+      "menu.title": "Menú", "menu.language": "Idioma",
+      "hero.title1": "El norte del", "hero.title2": "Perú, en casa.", "hero.desc": "Dos cocinas. Una misma filosofía. Pedí online y recibí la receta original de Fiesta, lista para servir.", "hero.btn1": "Comprar ahora", "hero.btn2": "Ver más →",
+      "shop.tag": "Tienda", "shop.products": "productos", "shop.add": "Agregar",
+      "shop.entradas": "Entradas", "shop.fondos": "Platos de Fondo", "shop.postres_bebidas": "Postres & Bebidas",
+      "footer.desc": "Tienda online de cocina norteña peruana. Dos sedes, dos razones sociales. La misma casa desde 1982.", "footer.store": "Sede", "footer.rights": "Todos los derechos reservados.", "footer.privacy": "Privacidad", "footer.terms": "Términos",
+      "cart.title": "Tu carrito", "cart.subtotal": "Subtotal", "cart.shipping": "Envío", "cart.calc": "A calcular", "cart.free": "Gratis", "cart.total": "Total", "cart.checkout": "Finalizar compra", "cart.continue": "Seguir comprando", "cart.billed_by": "Facturado por",
+      "reserve.title": "Reservas", "reserve.reserve_at": "Reservar en", "reserve.confirm": "Confirmar Reserva", "reserve.widget_title": "Reserva tu mesa",
+      "form.name": "Nombre", "form.phone": "Teléfono", "form.email": "Correo", "form.password": "Contraseña", "form.date": "Fecha", "form.time": "Hora", "form.people": "Personas", "form.comments": "Comentarios (opcional)", "form.address": "Dirección", "form.lastname": "Apellido",
+      "login.login": "Iniciar Sesión", "login.register": "Registrarse", "login.submit": "Ingresar", "login.create": "Crear Cuenta",
+      "checkout.title": "Finalizar", "checkout.purchase": "compra", "checkout.business": "Razón Social", "checkout.ruc": "RUC", "checkout.confirm_pay": "Confirmar y pagar", "checkout.summary": "Resumen",
+      "history.title": "Nuestra Historia", "history.subtitle": "desde 1982",
+      "history.p1": "Todo comenzó en Chiclayo, en una cocina de barro donde Carmen Solís guisaba cabrito para los trabajadores del mercado Modelo. Tres mesas, una estufa, y una idea: servir el norte como se sirve en casa.",
+      "history.p2": "En 1996, su hijo Héctor abrió la segunda sede en Lima, en Miraflores. Mismo fuego, misma receta, nueva conversación. Hoy, tres generaciones después, las dos cocinas siguen hablando entre sí.",
+      "history.p3": "Cada plato es un acto de memoria. Cada servicio, una promesa de que el sabor del norte no se pierde — se transforma.",
+      "toast.store_changed": "Ahora compras en", "toast.added": "agregado.", "toast.empty_cart": "Tu carrito está vacío.", "toast.reserve_success": "Reserva solicitada con éxito. Te contactaremos pronto.", "toast.checkout_success": "¡Pedido confirmado! Factura emitida por"
+    },
+    en: {
+      "loader.text": "Loading",
+      "modal.welcome": "Welcome to Fiesta", "modal.choose": "Choose your", "modal.location": "location", "modal.view_store": "View Store", "modal.reserve_table": "Book", "modal.close": "Close", "modal.back": "Back",
+      "lima.capital": "Capital Branch", "lima.name": "Lima",
+      "chiclayo.original": "Original Branch", "chiclayo.name": "Chiclayo",
+      "nav.shop": "Shop", "nav.contact": "Contact", "nav.reserve": "Book", "nav.history": "History",
+      "menu.title": "Menu", "menu.language": "Language",
+      "hero.title1": "The North of", "hero.title2": "Peru, at home.", "hero.desc": "Two kitchens. One philosophy. Order online and receive Fiesta's original recipe, ready to serve.", "hero.btn1": "Buy now", "hero.btn2": "See more →",
+      "shop.tag": "Shop", "shop.products": "products", "shop.add": "Add",
+      "shop.entradas": "Starters", "shop.fondos": "Mains", "shop.postres_bebidas": "Desserts & Drinks",
+      "footer.desc": "Online store of Peruvian northern cuisine. Two locations, two companies. The same house since 1982.", "footer.store": "Branch", "footer.rights": "All rights reserved.", "footer.privacy": "Privacy", "footer.terms": "Terms",
+      "cart.title": "Your cart", "cart.subtotal": "Subtotal", "cart.shipping": "Shipping", "cart.calc": "To calculate", "cart.free": "Free", "cart.total": "Total", "cart.checkout": "Checkout", "cart.continue": "Continue shopping", "cart.billed_by": "Billed by",
+      "reserve.title": "Reservations", "reserve.reserve_at": "Book at", "reserve.confirm": "Confirm Reservation", "reserve.widget_title": "Book your table",
+      "form.name": "Name", "form.phone": "Phone", "form.email": "Email", "form.password": "Password", "form.date": "Date", "form.time": "Time", "form.people": "People", "form.comments": "Comments (optional)", "form.address": "Address", "form.lastname": "Last Name",
+      "login.login": "Log In", "login.register": "Sign Up", "login.submit": "Log In", "login.create": "Create Account",
+      "checkout.title": "Complete", "checkout.purchase": "purchase", "checkout.business": "Company Name", "checkout.ruc": "Tax ID", "checkout.confirm_pay": "Confirm and pay", "checkout.summary": "Summary",
+      "history.title": "Our History", "history.subtitle": "since 1982",
+      "history.p1": "It all started in Chiclayo, in a clay kitchen where Carmen Solís stewed goat for the market workers. Three tables, one stove, and one idea: to serve the north as it is served at home.",
+      "history.p2": "In 1996, her son Héctor opened the second branch in Lima, in Miraflores. Same fire, same recipe, new conversation. Today, three generations later, the two kitchens still talk to each other.",
+      "history.p3": "Every dish is an act of memory. Every service, a promise that the flavor of the north is not lost — it is transformed.",
+      "toast.store_changed": "Now shopping at", "toast.added": "added.", "toast.empty_cart": "Your cart is empty.", "toast.reserve_success": "Reservation requested successfully. We will contact you soon.", "toast.checkout_success": "Order confirmed! Invoice issued by"
+    }
+  };
+
+  // URLs del widget de reservas Mesa247
+  const reserveWidgetUrls = {
+    lima: 'https://fiesta.mesa247.pe/reservas/#/fiesta_lima',
+    chiclayo: 'https://fiesta.mesa247.pe/reservas/#/fiesta_chiclayo'
+  };
+
+  const stores = {
+    lima: {
+      name_es: 'Fiesta Lima', name_en: 'Fiesta Lima',
+      tagline_es: 'Cocina de autor', tagline_en: 'Signature Cuisine',
+      subtitle_es: 'entregada en tu mesa.', subtitle_en: 'delivered to your table.',
+      description_es: 'Platos premium, listos para calentar y servir.', description_en: 'Premium dishes, ready to heat and serve.',
+      ruc: '20306470338', razonSocial: 'INVERSIONES Y NEGOCIOS DEL NORTE S.A.C.',
+      shipping: 12, freeShippingThreshold: 150,
+      address_es: 'Av. Reducto 1278 - Miraflores, Lima', address_en: 'Av. Reducto 1278 - Miraflores, Lima',
+      phone: '932 483 302', email: 'informes@restaurantfiestagourmet.pe', whatsapp: 'https://wa.me/51932483302',
+      hours_es: 'Martes a Domingo de 12:00 pm a 06:00 pm<br>Feriados de 12:00 pm a 6:00 pm', hours_en: 'Tuesday to Sunday from 12:00 pm to 06:00 pm<br>Holidays from 12:00 pm to 6:00 pm',
+      newProducts: [
+        { id: 'l7', tag_es: 'Clásico', tag_en: 'Classic', name_es: 'Arroz con Pato', name_en: 'Duck Rice', price: 92, img: 'https://z-cdn-media.chatglm.cn/files/94cff590-eaa0-4ef8-8c38-3b1274b9be3b.jpg?auth_key=1886677446-6d5be31d6fd44be78c67e3e931ce0565-0-4068f793f7e5fcf9025dd8b072ea788a' },
+        { id: 'l8', tag_es: 'Plato de Autor', tag_en: 'Signature', name_es: 'Pescado en Hoja', name_en: 'Fish in Leaf', price: 85, img: 'https://z-cdn-media.chatglm.cn/files/d363230d-de70-4946-9e5f-027c553b639b.jpg?auth_key=1886677446-34efa3251b9e4f7691745770dc137b53-0-1e170427f583645be34e2780736755f7' },
+        { id: 'l9', tag_es: 'Marinos', tag_en: 'Seafood', name_es: 'Tallarín de Langosta', name_en: 'Lobster Noodles', price: 110, img: 'https://z-cdn-media.chatglm.cn/files/04293876-3708-4fdc-9028-ee9d8d522ec6.jpg?auth_key=1886677446-82b9fab68cb1495caf32faec233f4983-0-50824277239c960a59fc2aacba968076' },
+        { id: 'l10', tag_es: 'Especialidad', tag_en: 'Specialty', name_es: 'Tabla de Mariscos', name_en: 'Seafood Platter', price: 120, img: 'https://z-cdn-media.chatglm.cn/files/2c77d752-54f5-4add-b6f8-6e62b1114490.jpg?auth_key=1886677446-3574cf6bf8c24102aa904cac11290b53-0-f9b5c6389fbcd9ae2056573c2e7e90a5' },
+        { id: 'l11', tag_es: 'Tradicional', tag_en: 'Traditional', name_es: 'Espesado de Cabrito', name_en: 'Goat Stew', price: 68, img: 'https://z-cdn-media.chatglm.cn/files/e6d1bda3-1865-43d3-aaca-55117a3d4a64.jpg?auth_key=1886676068-a1f0d1be113640b6afc4daeac63fd93d-0-976b83fd87be042964790d954572cf2c' }
+      ],
+      products: [
+        { id:'l1', name_es:'Cebiche del Mercado', name_en:'Market Cebiche', cat:'entradas', price:92, desc_es:'Lenguado fresco en leche de tigre con ají limo, cebolla morada y choclo serrano.', desc_en:'Fresh sole in tiger milk with limo chili, red onion and corn.', img:'https://z-cdn-media.chatglm.cn/files/cfc03ab2-9c23-4ea6-a62b-295696c088cc.jpg?auth_key=1886676068-e68a0c98ec1f4f29a2804c7e11cac194-0-da1478e581694cf3cbf03517d8ada33d' },
+        { id:'l2', name_es:'Langostinos del Chef', name_en:"Chef's Prawns", cat:'entradas', price:75, desc_es:'Langostinos salteados al ajillo con papa amarilla prensada y ají amarillo.', desc_en:'Prawns sautéed in garlic with pressed yellow potato and yellow chili.', img:'https://z-cdn-media.chatglm.cn/files/69b30107-15be-4f84-aadd-3678184fff76.jpg?auth_key=1886676068-e4a5331a50be46a99698c11c4794b1d9-0-51782f45ae51bfff4cd3d9ec801f7828' },
+        { id:'l3', name_es:'Tiradito Tropical', name_en:'Tropical Tiradito', cat:'entradas', price:85, desc_es:'Filetes de atún en láminas, salsa de ají amarillo macerado y aceite de cilantro.', desc_en:'Sliced tuna fillets, macerated yellow chili sauce and cilantro oil.', img:'https://z-cdn-media.chatglm.cn/files/46a9743b-f734-4032-a06c-210f774683a6.jpg?auth_key=1886676068-3a756aa5306f4f028da14ceba7f2438b-0-076b8f050d46032aa29efa5d6aeb1971' },
+        { id:'l4', name_es:'Menú Degustación', name_en:'Tasting Menu', cat:'postres', price:245, desc_es:'Siete tiempos del chef: cebiche, tiradito, causa, arroz con pato, cabrito, postre y pisco sour.', desc_en:"Chef's seven-course menu: cebiche, tiradito, causa, duck rice, goat, dessert and pisco sour.", img:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=900&auto=format&fit=crop' },
+        { id:'l5', name_es:'Pisco Sour Premium', name_en:'Premium Pisco Sour', cat:'postres', price:32, desc_es:'Pisco quebranta reserva, limón de Sultana, jarabe de goma y amargo de Angostura.', desc_en:'Reserve quebranta pisco, Sultana lemon, gum syrup and Angostura bitters.', img:'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=900&auto=format&fit=crop' },
+        { id:'l6', name_es:'Arroz con Pato Tradicional', name_en:'Traditional Duck Rice', cat:'fondos', price:92, desc_es:'Pato criollo brasado en chicha de jora, cilantro fresco y arroz graneado.', desc_en:'Creole duck braised in chicha de jora, fresh cilantro and loose rice.', img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=900&auto=format&fit=crop' },
+        { id:'l7', name_es:'Arroz con Pato', name_en:'Duck Rice', cat:'fondos', price:92, desc_es:'Clásico pato criollo brasado en chicha de jora, cilantro fresco y arroz graneado.', desc_en:'Classic creole duck braised in chicha de jora, fresh cilantro and loose rice.', img:'https://z-cdn-media.chatglm.cn/files/94cff590-eaa0-4ef8-8c38-3b1274b9be3b.jpg?auth_key=1886677446-6d5be31d6fd44be78c67e3e931ce0565-0-4068f793f7e5fcf9025dd8b072ea788a' },
+        { id:'l8', name_es:'Pescado en Hoja', name_en:'Fish in Leaf', cat:'fondos', price:85, desc_es:'Filete de pescado cocinado al vapor en hojas, con salsa de ají amarillo y hierbas.', desc_en:'Fish fillet steamed in leaves, with yellow chili sauce and herbs.', img:'https://z-cdn-media.chatglm.cn/files/d363230d-de70-4946-9e5f-027c553b639b.jpg?auth_key=1886677446-34efa3251b9e4f7691745770dc137b53-0-1e170427f583645be34e2780736755f7' },
+        { id:'l9', name_es:'Tallarín de Langosta', name_en:'Lobster Noodles', cat:'fondos', price:110, desc_es:'Tallarines frescos salteados con langosta, calamar y pulpo en salsa de mariscos.', desc_en:'Fresh noodles sautéed with lobster, squid and octopus in seafood sauce.', img:'https://z-cdn-media.chatglm.cn/files/04293876-3708-4fdc-9028-ee9d8d522ec6.jpg?auth_key=1886677446-82b9fab68cb1495caf32faec233f4983-0-50824277239c960a59fc2aacba968076' },
+        { id:'l10', name_es:'Tabla de Mariscos', name_en:'Seafood Platter', cat:'entradas', price:120, desc_es:'Selección de mariscos frescos: pulpo, langostinos, conchas y ceviche mixto.', desc_en:'Selection of fresh seafood: octopus, prawns, scallops and mixed ceviche.', img:'https://z-cdn-media.chatglm.cn/files/2c77d752-54f5-4add-b6f8-6e62b1114490.jpg?auth_key=1886677446-3574cf6bf8c24102aa904cac11290b53-0-f9b5c6389fbcd9ae2056573c2e7e90a5' },
+        { id:'l11', name_es:'Espesado de Cabrito', name_en:'Goat Stew', cat:'fondos', price:68, desc_es:'Guiso tradicional lambayecano, cabrito con chicha de jora, loche y culantro.', desc_en:'Traditional Lambayeque stew, goat with chicha de jora, loche squash and cilantro.', img:'https://z-cdn-media.chatglm.cn/files/e6d1bda3-1865-43d3-aaca-55117a3d4a64.jpg?auth_key=1886676068-a1f0d1be113640b6afc4daeac63fd93d-0-976b83fd87be042964790d954572cf2c' },
+        { id:'l12', name_es:'Pescado a la Parrilla', name_en:'Grilled Fish', cat:'fondos', price:78, desc_es:'Pescado fresco de la día, asado a la parrilla con un toque ahumado, servido con guarnición criolla.', desc_en:'Fresh catch of the day, grilled with a smoky touch, served with creole garnish.', img:'https://z-cdn-media.chatglm.cn/files/13c0de74-0c3c-4bb8-8bdc-40b0423fe785.jpg?auth_key=1886754709-1f0e3589d1f24d29b48807df81a2c08d-0-35daa28d29ab89ed33feb48e227a359d' },
+        { id:'l13', name_es:'Sour de Castañas', name_en:'Chestnut Sour', cat:'bebidas', price:35, desc_es:'Refrescante sour con maceración de castañas, pisco quebranta y hielo cristalino.', desc_en:'Refreshing sour with chestnut maceration, quebranta pisco and crystal clear ice.', img:'https://z-cdn-media.chatglm.cn/files/d45ca87b-6f8e-4793-a8e9-182465d440ec.jpg?auth_key=1886754709-fea0631af6b74be1a789fe08703a0eb7-0-4b38ce72e7ad0f238557d3f064b6ec47' },
+        { id:'l14', name_es:'Chilcano de Fresa', name_en:'Strawberry Chilcano', cat:'bebidas', price:32, desc_es:'Clásico chilcano con un giro frutal, fresas maceradas, limón y ginger beer.', desc_en:'Classic chilcano with a fruity twist, macerated strawberries, lemon and ginger beer.', img:'https://z-cdn-media.chatglm.cn/files/fbeac91a-4f63-4983-ac0d-98fcbdb4964b.jpg?auth_key=1886754709-d27ee0c32d374ba68e34772d86b4cdc4-0-833ee06815acd87c1ab7c0eb76444a8a' },
+        { id:'l15', name_es:'Pisco Tropical', name_en:'Tropical Pisco', cat:'bebidas', price:38, desc_es:'Trago exótico con pisco, jugo de frutas tropicales, espuma de maracuyá y decoración de piña.', desc_en:'Exotic drink with pisco, tropical fruit juice, passion fruit foam and pineapple garnish.', img:'https://z-cdn-media.chatglm.cn/files/6514cfcb-fcfb-4037-9ddc-856cd175e7d1.jpg?auth_key=1886754709-f3e5540fa9c74254ad00de79dab65c2a-0-4f8d38bb3eceed96d75e038479a4d897' }
+      ]
+    },
+    chiclayo: {
+      name_es: 'Fiesta Chiclayo', name_en: 'Fiesta Chiclayo',
+      tagline_es: 'Cocina tradicional', tagline_en: 'Traditional Cuisine',
+      subtitle_es: 'de la casa madre.', subtitle_en: 'from the mother house.',
+      description_es: 'La receta original de doña Carmen, hecha en Chiclayo con producto del valle y del mar de Lambayeque.', description_en: 'Doña Carmen\'s original recipe, made in Chiclayo with produce from the valley and the sea of Lambayeque.',
+      ruc: '20352730425', razonSocial: 'NEGOCIOS TURISTICOS DEL NORTE S.A.C.',
+      shipping: 8, freeShippingThreshold: 100,
+      address_es: 'Av. Salaverry 1820, Chiclayo', address_en: 'Av. Salaverry 1820, Chiclayo',
+      phone: '924516825', email: 'chiclayo@restaurantfiestagourmet.pe', whatsapp: 'https://wa.me/51924516825',
+      hours_es: 'Martes a Domingo de 10:00 am a 06:00 pm<br>Feriados de 10:00 am a 6:00 pm', hours_en: 'Tuesday to Sunday from 10:00 am to 06:00 pm<br>Holidays from 10:00 am to 6:00 pm',
+      newProducts: [
+        { id: 'c7', tag_es: 'Clásico', tag_en: 'Classic', name_es: 'Arroz con Pato', name_en: 'Duck Rice', price: 92, img: 'https://z-cdn-media.chatglm.cn/files/94cff590-eaa0-4ef8-8c38-3b1274b9be3b.jpg?auth_key=1886677446-6d5be31d6fd44be78c67e3e931ce0565-0-4068f793f7e5fcf9025dd8b072ea788a' },
+        { id: 'c8', tag_es: 'Plato de Autor', tag_en: 'Signature', name_es: 'Pescado en Hoja', name_en: 'Fish in Leaf', price: 85, img: 'https://z-cdn-media.chatglm.cn/files/d363230d-de70-4946-9e5f-027c553b639b.jpg?auth_key=1886677446-34efa3251b9e4f7691745770dc137b53-0-1e170427f583645be34e2780736755f7' },
+        { id: 'c9', tag_es: 'Marinos', tag_en: 'Seafood', name_es: 'Tallarín de Langosta', name_en: 'Lobster Noodles', price: 110, img: 'https://z-cdn-media.chatglm.cn/files/04293876-3708-4fdc-9028-ee9d8d522ec6.jpg?auth_key=1886677446-82b9fab68cb1495caf32faec233f4983-0-50824277239c960a59fc2aacba968076' },
+        { id: 'c10', tag_es: 'Especialidad', tag_en: 'Specialty', name_es: 'Tabla de Mariscos', name_en: 'Seafood Platter', price: 120, img: 'https://z-cdn-media.chatglm.cn/files/2c77d752-54f5-4add-b6f8-6e62b1114490.jpg?auth_key=1886677446-3574cf6bf8c24102aa904cac11290b53-0-f9b5c6389fbcd9ae2056573c2e7e90a5' },
+        { id: 'c11', tag_es: 'Tradicional', tag_en: 'Traditional', name_es: 'Espesado de Cabrito', name_en: 'Goat Stew', price: 68, img: 'https://z-cdn-media.chatglm.cn/files/e6d1bda3-1865-43d3-aaca-55117a3d4a64.jpg?auth_key=1886676068-a1f0d1be113640b6afc4daeac63fd93d-0-976b83fd87be042964790d954572cf2c' }
+      ],
+      products: [
+        { id:'c1', name_es:'Cebiche Lambayecano', name_en:'Lambayeque Cebiche', cat:'entradas', price:65, desc_es:'Cachema fresca en leche de tigre norteña, cebolla, camote y choclo desgranado.', desc_en:'Fresh cachema in northern tiger milk, onion, sweet potato and corn.', img:'https://z-cdn-media.chatglm.cn/files/cfc03ab2-9c23-4ea6-a62b-295696c088cc.jpg?auth_key=1886676068-e68a0c98ec1f4f29a2804c7e11cac194-0-da1478e581694cf3cbf03517d8ada33d' },
+        { id:'c2', name_es:'Langostinos del Norte', name_en:'Northern Prawns', cat:'entradas', price:68, desc_es:'Langostinos frescos del mar de Lambayeque, salteados al ajillo.', desc_en:'Fresh prawns from the Lambayeque sea, sautéed in garlic.', img:'https://z-cdn-media.chatglm.cn/files/69b30107-15be-4f84-aadd-3678184fff76.jpg?auth_key=1886676068-e4a5331a50be46a99698c11c4794b1d9-0-51782f45ae51bfff4cd3d9ec801f7828' },
+        { id:'c3', name_es:'Tiradito Norteño', name_en:'Northern Tiradito', cat:'entradas', price:58, desc_es:'Filetes de pescado en láminas, salsa de ají amarillo macerado y aceite de cilantro.', desc_en:'Sliced fish fillets, macerated yellow chili sauce and cilantro oil.', img:'https://z-cdn-media.chatglm.cn/files/46a9743b-f734-4032-a06c-210f774683a6.jpg?auth_key=1886676068-3a756aa5306f4f028da14ceba7f2438b-0-076b8f050d46032aa29efa5d6aeb1971' },
+        { id:'c4', name_es:'Chicharrón de Chancho', name_en:'Pork Chicharrón', cat:'postres', price:45, desc_es:'Chancho norteño frito en manteca, servido con yuca, sarza y salsa criolla.', desc_en:'Northern pork fried in lard, served with yuca, sarza and creole sauce.', img:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683f6?q=80&w=900&auto=format&fit=crop' },
+        { id:'c5', name_es:'Chicha Morada 1L', name_en:'Purple Corn Drink 1L', cat:'postres', price:15, desc_es:'Chicha morada casera de maíz morado, con piña, manzana, canela y clavo.', desc_en:'Homemade purple corn drink, with pineapple, apple, cinnamon and clove.', img:'https://images.unsplash.com/photo-1546173159-315724a31696?q=80&w=900&auto=format&fit=crop' },
+        { id:'c6', name_es:'Arroz con Pato Tradicional', name_en:'Traditional Duck Rice', cat:'fondos', price:48, desc_es:'Pato criollo brasado en chicha de jora y cilantro. Receta de doña Carmen, 1982.', desc_en:'Creole duck braised in chicha de jora and cilantro. Doña Carmen\'s recipe, 1982.', img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=900&auto=format&fit=crop' },
+        { id:'c7', name_es:'Arroz con Pato', name_en:'Duck Rice', cat:'fondos', price:92, desc_es:'Clásico pato criollo brasado en chicha de jora, cilantro fresco y arroz graneado.', desc_en:'Classic creole duck braised in chicha de jora, fresh cilantro and loose rice.', img:'https://z-cdn-media.chatglm.cn/files/94cff590-eaa0-4ef8-8c38-3b1274b9be3b.jpg?auth_key=1886677446-6d5be31d6fd44be78c67e3e931ce0565-0-4068f793f7e5fcf9025dd8b072ea788a' },
+        { id:'c8', name_es:'Pescado en Hoja', name_en:'Fish in Leaf', cat:'fondos', price:85, desc_es:'Filete de pescado cocinado al vapor en hojas, con salsa de ají amarillo y hierbas.', desc_en:'Fish fillet steamed in leaves, with yellow chili sauce and herbs.', img:'https://z-cdn-media.chatglm.cn/files/d363230d-de70-4946-9e5f-027c553b639b.jpg?auth_key=1886677446-34efa3251b9e4f7691745770dc137b53-0-1e170427f583645be34e2780736755f7' },
+        { id:'c9', name_es:'Tallarín de Langosta', name_en:'Lobster Noodles', cat:'fondos', price:110, desc_es:'Tallarines frescos salteados con langosta, calamar y pulpo en salsa de mariscos.', desc_en:'Fresh noodles sautéed with lobster, squid and octopus in seafood sauce.', img:'https://z-cdn-media.chatglm.cn/files/04293876-3708-4fdc-9028-ee9d8d522ec6.jpg?auth_key=1886677446-82b9fab68cb1495caf32faec233f4983-0-50824277239c960a59fc2aacba968076' },
+        { id:'c10', name_es:'Tabla de Mariscos', name_en:'Seafood Platter', cat:'entradas', price:120, desc_es:'Selección de mariscos frescos: pulpo, langostinos, conchas y ceviche mixto.', desc_en:'Selection of fresh seafood: octopus, prawns, scallops and mixed ceviche.', img:'https://z-cdn-media.chatglm.cn/files/2c77d752-54f5-4add-b6f8-6e62b1114490.jpg?auth_key=1886677446-3574cf6bf8c24102aa904cac11290b53-0-f9b5c6389fbcd9ae2056573c2e7e90a5' },
+        { id:'c11', name_es:'Espesado de Cabrito', name_en:'Goat Stew', cat:'fondos', price:68, desc_es:'Guiso tradicional lambayecano, cabrito con chicha de jora, loche y culantro.', desc_en:'Traditional Lambayeque stew, goat with chicha de jora, loche squash and cilantro.', img:'https://z-cdn-media.chatglm.cn/files/e6d1bda3-1865-43d3-aaca-55117a3d4a64.jpg?auth_key=1886676068-a1f0d1be113640b6afc4daeac63fd93d-0-976b83fd87be042964790d954572cf2c' },
+        { id:'c12', name_es:'Pescado a la Parrilla', name_en:'Grilled Fish', cat:'fondos', price:75, desc_es:'Pescado fresco de la día, asado a la parrilla con un toque ahumado, servido con guarnición criolla.', desc_en:'Fresh catch of the day, grilled with a smoky touch, served with creole garnish.', img:'https://z-cdn-media.chatglm.cn/files/13c0de74-0c3c-4bb8-8bdc-40b0423fe785.jpg?auth_key=1886754709-1f0e3589d1f24d29b48807df81a2c08d-0-35daa28d29ab89ed33feb48e227a359d' },
+        { id:'c13', name_es:'Sour de Castañas', name_en:'Chestnut Sour', cat:'bebidas', price:32, desc_es:'Refrescante sour con maceración de castañas, pisco quebranta y hielo cristalino.', desc_en:'Refreshing sour with chestnut maceration, quebranta pisco and crystal clear ice.', img:'https://z-cdn-media.chatglm.cn/files/d45ca87b-6f8e-4793-a8e9-182465d440ec.jpg?auth_key=1886754709-fea0631af6b74be1a789fe08703a0eb7-0-4b38ce72e7ad0f238557d3f064b6ec47' },
+        { id:'c14', name_es:'Chilcano de Fresa', name_en:'Strawberry Chilcano', cat:'bebidas', price:30, desc_es:'Clásico chilcano con un giro frutal, fresas maceradas, limón y ginger beer.', desc_en:'Classic chilcano with a fruity twist, macerated strawberries, lemon and ginger beer.', img:'https://z-cdn-media.chatglm.cn/files/fbeac91a-4f63-4983-ac0d-98fcbdb4964b.jpg?auth_key=1886754709-d27ee0c32d374ba68e34772d86b4cdc4-0-833ee06815acd87c1ab7c0eb76444a8a' },
+        { id:'c15', name_es:'Pisco Tropical', name_en:'Tropical Pisco', cat:'bebidas', price:35, desc_es:'Trago exótico con pisco, jugo de frutas tropicales, espuma de maracuyá y decoración de piña.', desc_en:'Exotic drink with pisco, tropical fruit juice, passion fruit foam and pineapple garnish.', img:'https://z-cdn-media.chatglm.cn/files/6514cfcb-fcfb-4037-9ddc-856cd175e7d1.jpg?auth_key=1886754709-f3e5540fa9c74254ad00de79dab65c2a-0-4f8d38bb3eceed96d75e038479a4d897' }
+      ]
+    }
+  };
+
+  let currentStore = 'lima';
+  let currentLang = 'es';
+  let carts = { lima: [], chiclayo: [] };
+  let heroSwiper = null;
+  let productSwipers = [];
+
+  // --- Persistencia (memoria del navegador) ---
+  try {
+    const savedLang = localStorage.getItem('fiesta_lang');
+    const savedCarts = JSON.parse(localStorage.getItem('fiesta_carts') || 'null');
+    if (savedLang && translations[savedLang]) currentLang = savedLang;
+    if (savedCarts && savedCarts.lima && savedCarts.chiclayo) carts = savedCarts;
+  } catch (e) {}
+
+  function persist() {
+    try {
+      localStorage.setItem('fiesta_lang', currentLang);
+      localStorage.setItem('fiesta_carts', JSON.stringify(carts));
+    } catch (e) {}
+  }
+
+  // --- i18n Logic ---
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+    
+    const flagEs = 'https://flagicons.lipis.dev/flags/4x3/es.svg';
+    const flagEn = 'https://flagicons.lipis.dev/flags/4x3/gb.svg';
+    const flagSrc = lang === 'es' ? flagEn : flagEs;
+    const flagAlt = lang === 'es' ? 'English' : 'Español';
+    
+    document.getElementById('langFlag').src = flagSrc;
+    document.getElementById('langFlag').alt = flagAlt;
+    
+    switchStore(currentStore, false);
+    persist();
+  }
+
+  // --- Cursor Logic ---
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+  function animateCursor() { ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateCursor); }
+  animateCursor();
+  document.addEventListener('mouseover', e => { if (e.target.closest('a, button, input, .hover-target, .store-select-card, .marquee-card, .menu-toggle-btn, .whatsapp-float, .lang-btn, .swiper-button-next, .swiper-button-prev, .btn-close-circle, .btn-premium, .btn-premium-secondary')) ring.classList.add('hover-active'); else ring.classList.remove('hover-active'); });
+
+  const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // --- Mobile Menu Logic ---
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
+  const menuToggleBtn = document.getElementById('menuToggle');
+  
+  function closeMobileMenu() { 
+    mobileMenuOverlay.classList.remove('open'); 
+    mobileMenuDrawer.classList.remove('open'); 
+    menuToggleBtn.classList.remove('active');
+  }
+  
+  menuToggleBtn.addEventListener('click', () => {
+    mobileMenuOverlay.classList.add('open');
+    mobileMenuDrawer.classList.add('open');
+    menuToggleBtn.classList.add('active');
+  });
+  document.getElementById('mobileMenuClose').addEventListener('click', closeMobileMenu);
+  mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+  document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', closeMobileMenu));
+
+  // Botones de la tarjeta de sede: "Ver Tienda" entra, "Reservar" abre el widget Mesa247
+  document.querySelectorAll('.store-select-card').forEach(card => {
+    const storeId = card.dataset.store;
+    const enterBtn = card.querySelector('.store-enter-btn');
+    const reserveBtn = card.querySelector('.store-reserve-btn');
+    
+    if (enterBtn) {
+      enterBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        switchStore(storeId);
+        document.getElementById('initialStoreOverlay').classList.remove('open');
+      });
+    }
+    if (reserveBtn) {
+      reserveBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openReserveWidget(storeId);
+      });
+    }
+    card.addEventListener('click', function() {
+      switchStore(storeId);
+      document.getElementById('initialStoreOverlay').classList.remove('open');
+    });
+  });
+
+  function renderFooterInfo(storeId) {
+    const store = stores[storeId];
+    document.getElementById('footerStoreName').textContent = store[`name_${currentLang}`].split(' ')[1];
+    const infoEl = document.getElementById('footerStoreInfo');
+    infoEl.innerHTML = `
+      <p>${store[`address_${currentLang}`]}</p>
+      <p>Tel: ${store.phone}</p>
+      <p>${store.email}</p>
+      <p class="pt-2 text-[0.65rem]" style="color: var(--cream-low);">${store[`hours_${currentLang}`]}</p>
+      <p class="pt-2 text-[0.65rem]" style="color: var(--cream-low);">${store.razonSocial}<br>RUC ${store.ruc}</p>
+    `;
+  }
+
+  function switchStore(storeId, conToast = true) {
+    currentStore = storeId; const store = stores[storeId];
+    document.querySelectorAll('.store-switch').forEach(sw => { 
+      sw.dataset.store = storeId; 
+      sw.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.store === storeId)); 
+    });
+    document.getElementById('storeNameTag').textContent = store[`name_${currentLang}`].split(' ')[1];
+    document.getElementById('storeTitle').textContent = store[`tagline_${currentLang}`];
+    document.getElementById('storeSubtitle').textContent = store[`subtitle_${currentLang}`];
+    document.getElementById('storeDescription').textContent = store[`description_${currentLang}`];
+    document.getElementById('productCount').textContent = store.products.length;
+    document.getElementById('cartStoreName').textContent = store[`name_${currentLang}`];
+    document.getElementById('cartFiscalName').textContent = store.razonSocial;
+    
+    document.getElementById('whatsappFloat').href = store.whatsapp;
+    renderFooterInfo(storeId);
+
+    renderProducts(); renderHeroMarquee(storeId); updateCartUI();
+    if (conToast) showToast(`${translations[currentLang]['toast.store_changed']} ${store[`name_${currentLang}`]}.`);
+    persist();
+  }
+  document.querySelectorAll('.store-switch button').forEach(btn => btn.addEventListener('click', () => switchStore(btn.dataset.store)));
+
+  // --- Swiper Logic ---
+  function renderHeroMarquee(storeId) {
+    const wrapper = document.getElementById('heroMarquee');
+    const products = stores[storeId].newProducts;
+    const loopProducts = [...products, ...products, ...products];
+
+    wrapper.innerHTML = `
+      <div class="swiper-wrapper">
+        ${loopProducts.map(p => `
+          <div class="swiper-slide marquee-card hover-target" data-id="${p.id}">
+            <img src="${p.img}" alt="${p[`name_${currentLang}`]}">
+            <div class="marquee-card-info">
+              <div class="text-[0.55rem] tracking-[0.2em] uppercase mb-1" style="color: var(--gold);">${p[`tag_${currentLang}`]}</div>
+              <h4 class="font-display text-lg font-light truncate text-white">${p[`name_${currentLang}`]}</h4>
+              <div class="font-display text-sm text-white">S/ ${p.price.toFixed(2)}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    if (heroSwiper) heroSwiper.destroy(true, true);
+
+    heroSwiper = new Swiper('#heroMarquee', {
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+      loop: true,
+      grabCursor: true,
+      keyboard: { enabled: true, onlyInViewport: true },
+      mousewheel: { forceToAxis: true },
+      speed: 4000,
+      autoplay: { delay: 1, disableOnInteraction: false, pauseOnMouseEnter: true },
+    });
+  }
+
+  document.getElementById('heroMarquee').addEventListener('click', function(e) {
+    const card = e.target.closest('.marquee-card');
+    if (card) {
+      quickView(card.dataset.id);
+    }
+  });
+
+  // --- Products Logic (3 Rows) ---
+  function renderProducts() {
+    const gridContainer = document.getElementById('productsGrid');
+    const store = stores[currentStore];
+    let products = store.products;
+
+    const rows = [
+      { title: translations[currentLang]['shop.entradas'], items: products.filter(p => p.cat === 'entradas') },
+      { title: translations[currentLang]['shop.fondos'], items: products.filter(p => p.cat === 'fondos') },
+      { title: translations[currentLang]['shop.postres_bebidas'], items: products.filter(p => p.cat === 'postres' || p.cat === 'bebidas') }
+    ];
+
+    gridContainer.innerHTML = rows.map((row, index) => {
+      if (row.items.length === 0) return '';
+      return `
+        <div class="mb-16">
+          <h3 class="font-display text-2xl md:text-3xl font-light mb-8 text-white">${row.title}</h3>
+          <div class="product-swiper-container">
+            <div class="swiper product-swiper" id="product-swiper-${index}">
+              <div class="swiper-wrapper">
+                ${row.items.map(p => `
+                  <div class="swiper-slide product-card" data-id="${p.id}">
+                    <div class="product-img-wrap aspect-[4/5]">
+                      <img src="${p.img}" alt="${p[`name_${currentLang}`]}" class="w-full h-full object-cover" loading="lazy" />
+                      <div class="quick-add hover-target">${translations[currentLang]['shop.add']}</div>
+                    </div>
+                    <div class="pt-4">
+                      <h4 class="font-display text-lg font-light mb-1 text-white">${p[`name_${currentLang}`]}</h4>
+                      <div class="flex justify-between items-center">
+                        <span class="font-display text-base text-white" style="color: var(--gold);">S/ ${p.price.toFixed(2)}</span>
+                        <button class="hover-target text-xs text-white add-to-cart-btn" style="color: var(--cream-dim);"><i class="fas fa-plus-circle"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    productSwipers.forEach(s => s.destroy(true, true));
+    productSwipers = [];
+
+    document.querySelectorAll('.product-swiper').forEach(el => {
+      productSwipers.push(new Swiper(el, {
+        slidesPerView: 1.2,
+        spaceBetween: 20,
+        grabCursor: true,
+        keyboard: { enabled: true },
+        navigation: {
+          nextEl: el.querySelector('.swiper-button-next'),
+          prevEl: el.querySelector('.swiper-button-prev'),
+        },
+        breakpoints: {
+          640: { slidesPerView: 2.2, spaceBetween: 24 },
+          768: { slidesPerView: 3.2, spaceBetween: 30 },
+          1024: { slidesPerView: 4.2, spaceBetween: 30 }
+        }
+      }));
+    });
+
+    document.querySelectorAll('.product-card').forEach(card => {
+      const id = card.dataset.id;
+      const imgWrap = card.querySelector('.product-img-wrap');
+      const quickAdd = card.querySelector('.quick-add');
+      const addBtn = card.querySelector('.add-to-cart-btn');
+      
+      imgWrap.addEventListener('click', () => quickView(id));
+      quickAdd.addEventListener('click', (e) => { e.stopPropagation(); addToCart(id); });
+      addBtn.addEventListener('click', (e) => { e.stopPropagation(); addToCart(id); });
+    });
+  }
+
+  // --- Cart Logic ---
+  function addToCart(id) {
+    const product = stores[currentStore].products.find(p => p.id === id);
+    const existing = carts[currentStore].find(i => i.id === id);
+    if (existing) existing.qty++; else carts[currentStore].push({ ...product, qty: 1 });
+    updateCartUI(); showToast(`"${product[`name_${currentLang}`]}" ${translations[currentLang]['toast.added']}`); openCart();
+  }
+  function removeFromCart(id) { carts[currentStore] = carts[currentStore].filter(i => i.id !== id); updateCartUI(); }
+  function updateQty(id, delta) { const item = carts[currentStore].find(i => i.id === id); if (item) { item.qty += delta; if (item.qty <= 0) removeFromCart(id); else updateCartUI(); } }
+  function cartTotal() { return carts[currentStore].reduce((s, i) => s + i.price * i.qty, 0); }
+  function updateCartUI() {
+    const cart = carts[currentStore]; const store = stores[currentStore];
+    document.getElementById('cartCount').textContent = `(${cart.reduce((s,i)=>s+i.qty,0)})`;
+    const el = document.getElementById('cartItems');
+    el.innerHTML = cart.length ? cart.map(item => `
+      <div class="cart-item flex gap-4 py-4 border-b" style="border-color: var(--border);">
+        <img src="${item.img}" class="cart-item-img w-16 h-20 object-cover">
+        <div class="flex-1 flex flex-col justify-between">
+          <div><h4 class="font-display text-sm text-white">${item[`name_${currentLang}`]}</h4><div class="text-[0.65rem] text-white" style="color: var(--cream-low);">S/ ${item.price.toFixed(2)}</div></div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3 text-xs">
+              <button class="hover-target w-6 h-6 border flex items-center justify-center text-white qty-minus" style="border-color: var(--border-strong);">-</button>
+              <span class="font-display text-white">${item.qty}</span>
+              <button class="hover-target w-6 h-6 border flex items-center justify-center text-white qty-plus" style="border-color: var(--border-strong);">+</button>
+            </div>
+            <div class="font-display text-sm" style="color: var(--gold);">S/ ${(item.price * item.qty).toFixed(2)}</div>
+          </div>
+        </div>
+      </div>
+    `).join('') : `<p class="text-center py-10 text-sm" style="color: var(--cream-low);">${translations[currentLang]['toast.empty_cart']}</p>`;
+    
+    el.querySelectorAll('.cart-item').forEach((itemEl, index) => {
+      const id = cart[index].id;
+      itemEl.querySelector('.qty-minus').addEventListener('click', () => updateQty(id, -1));
+      itemEl.querySelector('.qty-plus').addEventListener('click', () => updateQty(id, 1));
+    });
+
+    const subtotal = cartTotal();
+    document.getElementById('cartSubtotal').textContent = `S/ ${subtotal.toFixed(2)}`;
+    document.getElementById('cartTotal').textContent = `S/ ${subtotal.toFixed(2)}`;
+    persist();
+  }
+
+  function openCart() { document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartDrawer').classList.add('open'); }
+  function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartDrawer').classList.remove('open'); }
+  
+  function quickView(id) {
+    const p = stores[currentStore].products.find(p => p.id === id);
+    const content = document.getElementById('quickViewContent');
+    content.innerHTML = `
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <img src="${p.img}" class="quickview-img" style="min-height: 250px;">
+        <div class="p-6 md:p-8">
+          <button id="closeQuickViewBtn" class="btn-close-circle hover-target mb-6">
+            <i class="fas fa-times text-sm"></i>
+          </button>
+          <h2 class="font-display text-3xl font-light mb-4 text-white">${p[`name_${currentLang}`]}</h2>
+          <p class="text-xs mb-6 text-white" style="color: var(--cream-dim);">${p[`desc_${currentLang}`]}</p>
+          <div class="font-display text-2xl mb-6" style="color: var(--gold);">S/ ${p.price.toFixed(2)}</div>
+          <button id="quickAddBtn" class="btn-premium w-full hover-target">${translations[currentLang]['shop.add']}</button>
+        </div>
+      </div>`;
+    document.getElementById('quickViewOverlay').classList.add('open');
+    
+    document.getElementById('closeQuickViewBtn').addEventListener('click', closeQuickView);
+    document.getElementById('quickAddBtn').addEventListener('click', () => { addToCart(id); closeQuickView(); });
+  }
+  function closeQuickView() { document.getElementById('quickViewOverlay').classList.remove('open'); }
+  
+  function openCheckout() {
+    if (carts[currentStore].length === 0) return showToast(translations[currentLang]['toast.empty_cart']);
+    closeCart();
+    const store = stores[currentStore];
+    document.getElementById('checkoutRazon').textContent = store.razonSocial;
+    document.getElementById('checkoutRuc').textContent = store.ruc;
+    document.getElementById('checkoutItems').innerHTML = carts[currentStore].map(i => `
+      <div class="flex gap-3 items-center">
+        <img src="${i.img}" class="w-12 h-12 object-cover">
+        <div class="flex-1"><div class="font-display text-xs text-white">${i[`name_${currentLang}`]}</div><div class="text-[0.65rem] text-white" style="color: var(--cream-low);">Cant: ${i.qty}</div></div>
+        <div class="font-display text-xs" style="color: var(--gold);">S/ ${(i.price * i.qty).toFixed(2)}</div>
+      </div>`).join('');
+    const subtotal = cartTotal(); const shipping = subtotal >= store.freeShippingThreshold ? 0 : store.shipping;
+    document.getElementById('checkoutSubtotal').textContent = `S/ ${subtotal.toFixed(2)}`;
+    document.getElementById('checkoutShipping').textContent = shipping === 0 ? translations[currentLang]['cart.free'] : `S/ ${shipping.toFixed(2)}`;
+    document.getElementById('checkoutTotal').textContent = `S/ ${(subtotal + shipping).toFixed(2)}`;
+    document.getElementById('checkoutTotal2').textContent = `S/ ${(subtotal + shipping).toFixed(2)}`;
+    document.getElementById('checkoutOverlay').classList.add('open');
+  }
+  function closeCheckout() { document.getElementById('checkoutOverlay').classList.remove('open'); }
+
+  // --- Widget Mesa247 ---
+  function openReserveWidget(storeId) {
+    const store = stores[storeId];
+    const frame = document.getElementById('reserveWidgetFrame');
+    document.getElementById('widgetStoreName').textContent = store[`name_${currentLang}`];
+    frame.src = reserveWidgetUrls[storeId];
+    document.getElementById('reserveWidgetOverlay').classList.add('open');
+  }
+  function closeReserveWidget() {
+    const frame = document.getElementById('reserveWidgetFrame');
+    frame.src = '';
+    document.getElementById('reserveWidgetOverlay').classList.remove('open');
+  }
+
+  function openHistory() { document.getElementById('historyOverlay').classList.add('open'); }
+  function closeHistory() { document.getElementById('historyOverlay').classList.remove('open'); }
+
+  // --- Event Listeners ---
+  document.getElementById('cartToggle').addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  document.getElementById('cartOverlay').addEventListener('click', closeCart);
+  document.getElementById('continueShoppingBtn').addEventListener('click', closeCart);
+  document.getElementById('checkoutBtn').addEventListener('click', openCheckout);
+  document.getElementById('checkoutOverlay').addEventListener('click', (e) => { if(e.target.id === 'checkoutOverlay') closeCheckout(); });
+  document.getElementById('closeCheckoutBtn').addEventListener('click', closeCheckout);
+  document.getElementById('quickViewOverlay').addEventListener('click', (e) => { if(e.target.id === 'quickViewOverlay') closeQuickView(); });
+  
+  document.getElementById('reserveMobileBtn').addEventListener('click', () => { closeMobileMenu(); openReserveWidget(currentStore); });
+
+  // Login desde menú móvil (pantallas muy pequeñas)
+  document.getElementById('userMobileBtn').addEventListener('click', () => { closeMobileMenu(); document.getElementById('loginOverlay').classList.add('open'); });
+
+  document.getElementById('closeReserveWidgetBtn').addEventListener('click', closeReserveWidget);
+  document.getElementById('reserveWidgetOverlay').addEventListener('click', (e) => { if(e.target.id === 'reserveWidgetOverlay') closeReserveWidget(); });
+
+  document.getElementById('historyToggle').addEventListener('click', openHistory);
+  document.getElementById('historyMobileBtn').addEventListener('click', () => { closeMobileMenu(); openHistory(); });
+  document.getElementById('closeHistoryBtn').addEventListener('click', closeHistory);
+  document.getElementById('historyOverlay').addEventListener('click', (e) => { if(e.target.id === 'historyOverlay') closeHistory(); });
+
+  document.getElementById('userToggle').addEventListener('click', () => document.getElementById('loginOverlay').classList.add('open'));
+  document.getElementById('closeLoginBtn').addEventListener('click', () => document.getElementById('loginOverlay').classList.remove('open'));
+  document.getElementById('loginOverlay').addEventListener('click', (e) => { if(e.target.id === 'loginOverlay') document.getElementById('loginOverlay').classList.remove('open'); });
+  document.querySelectorAll('.login-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('loginForm').classList.toggle('hidden', tab.dataset.tab !== 'login');
+      document.getElementById('registerForm').classList.toggle('hidden', tab.dataset.tab !== 'register');
+    });
+  });
+
+  document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    closeCheckout();
+    showToast(`${translations[currentLang]['toast.checkout_success']} ${stores[currentStore].razonSocial}`);
+    carts[currentStore] = [];
+    updateCartUI();
+  });
+
+  document.getElementById('langToggle').addEventListener('click', () => setLanguage(currentLang === 'es' ? 'en' : 'es'));
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMessage').textContent = msg;
+    t.classList.remove('translate-y-[120%]', 'opacity-0');
+    t.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => { t.classList.add('translate-y-[120%]', 'opacity-0'); t.classList.remove('translate-y-0', 'opacity-100'); }, 3000);
+  }
+
+  // --- Loader ---
+  function hideLoader() { const l = document.getElementById('loader'); if (l) l.classList.add('hidden'); }
+  if (document.readyState === 'complete') setTimeout(hideLoader, 1200);
+  else window.addEventListener('load', () => setTimeout(hideLoader, 1200));
+  setTimeout(hideLoader, 5000);
+
+  // --- Init ---
+  setLanguage(currentLang);
+</script>
+</body>
+</html>
 
